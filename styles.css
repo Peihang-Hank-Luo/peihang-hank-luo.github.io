@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px;
     background: #f4f4f4;
 }
 
@@ -12,8 +12,14 @@ header {
     text-align: center;
 }
 
+nav {
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
 nav ul {
     list-style: none;
+    margin: 0;
     padding: 0;
 }
 
@@ -25,6 +31,13 @@ nav ul li {
 nav ul li a {
     color: white;
     text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+nav ul li a:hover {
+    background-color: #333;
+    color: #fff;
 }
 
 footer {
@@ -35,4 +48,106 @@ footer {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+#symptom-checker {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+#symptom-input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.autocomplete-list {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: white;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    width: calc(100% - 40px);
+    z-index: 10;
+    left: 20px;
+    display: none;
+}
+
+.autocomplete-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.autocomplete-item:hover {
+    background: #007BFF;
+    color: white;
+}
+
+.symptom-chip {
+    display: inline-block;
+    background: #007BFF;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.symptom-chip:hover {
+    background: #0056b3;
+}
+
+.symptom-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.symptom-button {
+    background: #eee;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.symptom-button:hover {
+    background: #ddd;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #218838;
+}
+
+#results {
+    margin-top: 20px;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background: #fff;
+    border-radius: 5px;
+    display: none;
 }
