@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Symptom Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+
+        #symptom-checker {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        #symptom-input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .autocomplete-list {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: white;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            width: calc(100% - 40px);
+            z-index: 10;
+            left: 20px;
+            display: none;
+        }
+
+        .autocomplete-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .autocomplete-item:hover {
+            background: #007BFF;
+            color: white;
+        }
+
+        .symptom-chip {
+            display: inline-block;
+            background: #007BFF;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .symptom-chip:hover {
+            background: #0056b3;
+        }
+
+        .symptom-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .symptom-button {
+            background: #eee;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+
+        .symptom-button:hover {
+            background: #ddd;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        #results {
+            margin-top: 20px;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            background: #fff;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="symptom-checker">
+        <h2>Road Symptom Checker</h2>
+        <input type="text" id="symptom-input" placeholder="Enter road symptoms...">
+        <div id="autocomplete-list" class="autocomplete-list"></div>
+        <div id="selected-symptoms"></div>
+
+        <h3>Select Symptoms:</h3>
+        <div id="symptom-buttons" class="symptom-buttons"></div>
+
+        <button id="diagnose-button">Check Road Condition</button>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const data = {
+                symptoms: ["Pothole", "Cracking", "Faded Markings", "Rutting", "Drainage Issues"],
+                diseases: {
+                    "Pothole": "Surface degradation due to water infiltration and traffic load.",
+                    "Cracking": "Structural fatigue or weather-induced stress.",
+                    "Faded Markings": "Paint degradation due to exposure and wear.",
+                    "Rutting": "Depressions caused by heavy traffic loads.",
+                    "Drainage Issues": "Water pooling due to improper slope or clogged drains."
+                },
+                repairStrategies: {
+                    "Pothole": "Cold patch repair or full-depth asphalt replacement.",
+                    "Cracking": "Crack sealing or resurfacing.",
+                    "Faded Markings": "Repainting using thermoplastic paint.",
+                    "Rutting": "Milling and resurfacing to restore smoothness.",
+                    "Drainage Issues": "Improving drainage design and clearing blockages."
+                }
+            };
+
+            const symptomButtons = document.getElementById("symptom-buttons");
+            const selectedSymptoms = document.getElementById("selected-symptoms");
+            const input = document.getElementById("symptom-input");
+            const autocompleteList = document.getElementById("autocomplete-list");
+            const resultsContainer = document.getElementById("results");
+            const diagnoseButton = document.getElementById("diagnose-button");
+
+            // Populate symptom buttons for quick selection  
+            data.symptoms.forEach(symptom => {
+                let button = document.createElement("div");
+                button.className = "symptom-button";
+                button.textContent = symptom;
+                button.onclick = () => addSymptom(symptom);
+                symptomButtons.appendChild(button);
+            });
+
+            // Autocomplete function
+            input.addEventListener("input", function () {
+                autocompleteList.innerHTML = "";
+                let value = input.value.toLowerCase();
+                if (!value) {
+                    autocompleteList.style.display = "none";
+                    return;
+                }
+                let matches = data.symptoms.filter(symptom => symptom.toLowerCase().includes(value));
+                matches.forEach(symptom => {
+                    let item = document.createElement("div");
+                    item.className = "autocomplete-item";
+                    item.textContent = symptom;
+                    item.onclick = function () {
+                        addSymptom(symptom);
+                        input.value = "";
+                        autocompleteList.style.display = "none";
+                    };
+                    autocompleteList.appendChild(item);
+                });
+                autocompleteList.style.display = "block";
+            });
+
+            // Add symptom function
+            function addSymptom(symptom) {
+                if (![...selectedSymptoms.children].some(el => el.textContent === symptom)) {
+                    let chip = document.createElement("span");
+                    chip.className = "symptom-chip";
+                    chip.textContent = symptom;
+                    chip.onclick = () => chip.remove();
+                    selectedSymptoms.appendChild(chip);
+                }
+            }
+
+            // Get diagnosis function
+            function getDiagnosis() {
+                resultsContainer.style.display = "block";
+                let selectedSymptoms = [...document.querySelectorAll(".symptom-chip")].map(el => el.textContent);
+                if (selectedSymptoms.length === 0) {
+                    resultsContainer.innerHTML = '<p>Please select at least one symptom.</p>';
+                    return;
+                }
+
+                let possibleDiseases = [];
+                let recommendedRepairs = [];
+
+                selectedSymptoms.forEach(symptom => {
+                    if (data.diseases[symptom]) {
+                        possibleDiseases.push({ name: symptom, description: data.diseases[symptom] });
+                    }
+                    if (data.repairStrategies[symptom]) {
+                        recommendedRepairs.push({ name: symptom, description: data.repairStrategies[symptom] });
+                    }
+                });
+
+                resultsContainer.innerHTML = '<h3>Possible Issues</h3>';
+                possibleDiseases.forEach(disease => {
+                    let div = document.createElement("div");
+                    div.innerHTML = `<strong>${disease.name}:</strong> ${disease.description}`;
+                    resultsContainer.appendChild(div);
+                });
+
+                resultsContainer.innerHTML += `<h3>Recommended Repairs</h3>`;
+                recommendedRepairs.forEach(strategy => {
+                    let div = document.createElement("div");
+                    div.innerHTML = `<strong>${strategy.name}:</strong> ${strategy.description}`;
+                    resultsContainer.appendChild(div);
+                });
+            }
+            diagnoseButton.addEventListener("click", getDiagnosis);
+        });
+    </script>
+</body>
+</html>
