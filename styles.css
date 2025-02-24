@@ -27,6 +27,12 @@ nav ul li a {
     text-decoration: none;
 }
 
+main {
+    max-width: 800px; /* Limits content width for better readability */
+    margin: 20px auto; /* Centers the content and adds top/bottom space */
+    padding: 0 20px; /* Adds left/right padding */
+}
+
 footer {
     text-align: center;
     padding: 1rem;
