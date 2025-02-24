@@ -102,6 +102,7 @@ h2 {
 
 .about-text {
     flex: 1;
+    max-width: 60%; /* Ensures text doesn't take too much space */
 }
 
 .profile-photo {
