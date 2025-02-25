@@ -107,6 +107,10 @@ h2 {
     flex: 1;
 }
 
+.about-text h2 {
+    text-align: left; /* Left-align About Me heading */
+}
+
 .profile-photo {
     width: 150px;
     height: 150px;
