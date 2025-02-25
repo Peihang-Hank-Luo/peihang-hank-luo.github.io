@@ -101,20 +101,18 @@ h2 {
     align-items: center;
     text-align: left;
     justify-content: space-between;
-    gap: 20px;
 }
 
 .about-text {
-    flex: 2;
-    max-width: 60%;
+    flex: 1;
 }
 
 .profile-photo {
-    flex: 1;
     width: 150px;
     height: 150px;
     border-radius: 50%;
     object-fit: cover;
+    margin-left: 20px;
 }
 
 footer {
