@@ -1,20 +1,68 @@
 document.addEventListener("DOMContentLoaded", function () {
     const data = {
-        symptoms: ["Pothole", "Cracking", "Faded Markings", "Rutting", "Drainage Issues"],
-        diseases: {
-            "Pothole": "Surface degradation due to water infiltration and traffic load.",
-            "Cracking": "Structural fatigue or weather-induced stress.",
-            "Faded Markings": "Paint degradation due to exposure and wear.",
-            "Rutting": "Depressions caused by heavy traffic loads.",
-            "Drainage Issues": "Water pooling due to improper slope or clogged drains."
-        },
-        repairStrategies: {
-            "Pothole": "Cold patch repair or full-depth asphalt replacement.",
-            "Cracking": "Crack sealing or resurfacing.",
-            "Faded Markings": "Repainting using thermoplastic paint.",
-            "Rutting": "Milling and resurfacing to restore smoothness.",
-            "Drainage Issues": "Improving drainage design and clearing blockages."
-        }
+        symptoms: ["Transverse Cracking",
+            "Longitudinal Cracking",
+            "Edge Cracking",
+            "Block Cracking",
+            "Alligator Cracking",
+            "Pothole",
+            "Patch",
+            "Distortion",
+            "Shoving",
+            "Rutting",
+            "Ravelling",
+            "Bleeding"],
+        causes: ["Frost Heave",
+            "Hot Weather",
+            "Weak Asphalt Mix",
+            "Lack Of Asphalt",
+            "Too High Asphalt Mix",
+            "Base Failure",
+            "High Fine Aggregate Content",
+            "Low Air Voids",
+            "Heavy Prime Or Tack Cost",
+            "Fine Aggregate Mix",
+            "Inadequate Design Of Layer Thickness",
+            "Improper Or Inferior Materials",
+            "Insufficient Base Structure",
+            "Improper Compaction",
+            "Rounded Or Smoothed Aggregate",
+            "Inadequately Applied Seal Coat",
+            "Load Induced By Heavy Traffic",
+            "Low Traffic Volume",
+            "Heavy Loading Vehicle Movement",
+            "Poor Drainage",
+            "Excessive Moisture",
+            "Continued Deterioration Of Other Defect Type"],
+        diseases: ["Cracking",
+            "Disintegration",
+            "Surface Deformation",
+            "Surface Defects"],
+        repairStrategies: ["Root And Seal",
+            "Clean And Seal",
+            "Asphalt Emulsion",
+            "Rubberised Fillers",
+            "Microsurfacing Material",
+            "Full-Depth Crack Repair",
+            "Cold-Mix Asphalt",
+            "Hot-Mix Asphalt",
+            "Spray Injection",
+            "Slurry Or Microsurfacing",
+            "Slurry Seal",
+            "Seal Coat",
+            "Double Chip Seal",
+            "Microsurfacing",
+            "Thin Hot-Mix Overlay",
+            "Hot In-Place Recycling, Thin overlay",
+            "Cold In-Place Recycling, Thin overlay",
+            "Fog Seal"],
+        traditionalStrategies: ["No Available Treatment",
+            "Avoid Similar Mistakes During Maintenance And Reconstruction",
+            "Lanes Designed For Different Vehicle",
+            "Improve Traffic Allocation",
+            "Implement Speed Reduction Measures",
+            "Drain Surface Water",
+            "Repair Surrounding Devices"]
     };
 
     const symptomButtons = document.getElementById("symptom-buttons");
@@ -59,46 +107,73 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add symptom function
     function addSymptom(symptom) {
         if (![...selectedSymptoms.children].some(el => el.textContent === symptom)) {
+            let container = document.createElement("div");
+            container.className = "symptom-container";
+            container.dataset.symptom = symptom;
+
             let chip = document.createElement("span");
             chip.className = "symptom-chip";
             chip.textContent = symptom;
-            chip.onclick = () => chip.remove();
-            selectedSymptoms.appendChild(chip);
+            
+            let severitySelect = document.createElement("select");
+            severitySelect.className = "severity-select";
+            ["Low", "Moderate", "High"].forEach(level => {
+                let option = document.createElement("option");
+                option.value = level;
+                option.textContent = level;
+                severitySelect.appendChild(option);
+            });
+
+            let removeButton = document.createElement("button");
+            removeButton.className = "remove-button";
+            removeButton.textContent = "×";
+            removeButton.onclick = () => container.remove();
+            
+            container.appendChild(chip);
+            container.appendChild(severitySelect);
+            container.appendChild(removeButton);
+            selectedSymptoms.appendChild(container);
         }
     }
 
     // Get diagnosis function
     function getDiagnosis() {
         resultsContainer.style.display = "block";
-        let selectedSymptoms = [...document.querySelectorAll(".symptom-chip")].map(el => el.textContent);
+        let selectedSymptoms = [...document.querySelectorAll(".symptom-container")].map(container => {
+            return {
+                symptom: container.dataset.symptom,
+                severity: container.querySelector(".severity-select").value
+            };
+        });
+
         if (selectedSymptoms.length === 0) {
             resultsContainer.innerHTML = '<p>Please select at least one symptom.</p>';
             return;
         }
 
-        let possibleDiseases = [];
+        let possibleCauses = [];
         let recommendedRepairs = [];
 
         selectedSymptoms.forEach(symptom => {
-            if (data.diseases[symptom]) {
-                possibleDiseases.push({ name: symptom, description: data.diseases[symptom] });
+            /* if () {
+                possibleCauses.push();
             }
-            if (data.repairStrategies[symptom]) {
-                recommendedRepairs.push({ name: symptom, description: data.repairStrategies[symptom] });
-            }
+            if () {
+                recommendedRepairs.push();
+            } */
         });
 
-        resultsContainer.innerHTML = '<h3>Possible Issues</h3>';
-        possibleDiseases.forEach(disease => {
+        resultsContainer.innerHTML = '<h3>Possible Causes</h3>';
+        possibleCauses.forEach(cause => {
             let div = document.createElement("div");
-            div.innerHTML = `<strong>${disease.name}:</strong> ${disease.description}`;
+            div.innerHTML = `<strong>${cause}</strong>`;
             resultsContainer.appendChild(div);
         });
 
         resultsContainer.innerHTML += `<h3>Recommended Repairs</h3>`;
         recommendedRepairs.forEach(strategy => {
             let div = document.createElement("div");
-            div.innerHTML = `<strong>${strategy.name}:</strong> ${strategy.description}`;
+            div.innerHTML = `<strong>${strategy}</strong>`;
             resultsContainer.appendChild(div);
         });
     }
