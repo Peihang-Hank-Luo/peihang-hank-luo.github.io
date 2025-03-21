@@ -62,7 +62,137 @@ document.addEventListener("DOMContentLoaded", function () {
             "Improve Traffic Allocation",
             "Implement Speed Reduction Measures",
             "Drain Surface Water",
-            "Repair Surrounding Devices"]
+            "Repair Surrounding Devices"],
+        timeSync: ["3",
+            "3",
+            "1",
+            "2-3",
+            "2-3",
+            "5",
+            "1",
+            "1",
+            "5",
+            "3-5",
+            "3-5",
+            "3-6",
+            "7-10",
+            "5-8",
+            "5-8",
+            "6-10",
+            "6-15",
+            "1-2"]
+    };
+
+    // Define Full, FullTotal, and severity matrices
+
+    // 22x12 matrix: Causes (rows) → Symptoms (columns)
+    const fullMatrix = [
+        [1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0], // Row 1 (Cause 1 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], // Row 2 (Cause 2 → Symptoms)
+        [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0], // Row 3 (Cause 3 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], // Row 4 (Cause 4 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1], // Row 5 (Cause 5 → Symptoms)
+        [0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0], // Row 6 (Cause 6 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], // Row 7 (Cause 7 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], // Row 8 (Cause 8 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], // Row 9 (Cause 9 → Symptoms)
+        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], // Row 10 (Cause 10 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0], // Row 11 (Cause 11 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0], // Row 12 (Cause 12 → Symptoms)
+        [0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0], // Row 13 (Cause 13 → Symptoms)
+        [0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0], // Row 14 (Cause 14 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], // Row 15 (Cause 15 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1], // Row 16 (Cause 16 → Symptoms)
+        [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0], // Row 17 (Cause 17 → Symptoms)
+        [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], // Row 18 (Cause 18 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], // Row 19 (Cause 19 → Symptoms)
+        [0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 1, 0], // Row 20 (Cause 20 → Symptoms)
+        [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0], // Row 21 (Cause 21 → Symptoms)
+        [0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0], // Row 22 (Cause 22 → Symptoms)
+    ];
+
+    // 4x18x12 matrix: Severity (keys) → Repair Strategies (rows) → Symptoms (columns)
+    const fullTotalMatrix = { 
+        "N/A": [
+            [0.4, 0.4, 0, 0.1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0.4, 0.4, 0, 0.1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0.9, 1.0, 0.1, 0.6, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0.6, 1.0, 0.1, 0.6, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0.6, 1.0, 0.1, 0.6, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0.6, 0.6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0.6, 0.6, 0, 0.6, 0.9, 1.0, 0.9, 0.9, 1.0, 0, 0.6, 0],
+            [0.6, 0.6, 0, 0.6, 0.9, 1.0, 0.9, 0.9, 1.0, 0, 0.6, 0],
+            [0.6, 0.6, 0, 0.6, 0.9, 1.0, 0.9, 0.9, 1.0, 0, 0.6, 0],
+            [0.6, 0.6, 0, 0.6, 0.9, 1.0, 0.9, 0.9, 1.0, 0, 0.6, 0],
+            [0, 0, 0.1, 0, 0, 0, 0, 0, 0.4, 0, 0.6, 1.0],
+            [1.0, 0, 0.4, 0.4, 0.1, 0, 0, 0, 0, 0, 0.9, 1.0],
+            [1.0, 1.0, 1.0, 1.0, 0.1, 0, 0, 0, 0, 0.1, 0.6, 1.0],
+            [0, 0, 0.1, 0, 0, 0, 0, 0, 1.0, 0, 0.6, 1.0],
+            [0, 0, 1.0, 0.9, 0, 0, 0, 0, 0.9, 0.4, 0.6, 0.6],
+            [0.9, 0.4, 0.4, 0.4, 0.4, 0, 0.4, 0.4, 1.0, 0.4, 0, 0],
+            [1.0, 1.0, 1.0, 1.0, 1.0, 0, 0.9, 1.0, 1.0, 0.9, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.4, 0]
+        ], 
+        "Low": [
+            [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+            [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+            [1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1],
+            [0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+            [0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0],
+            [1, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+        ], 
+        "Medium": [
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+            [1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1],
+            [0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0],
+            [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0],
+            [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
+        ], 
+        "High": [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+            [1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+            [1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+            [1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+            [1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1],
+            [0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+            [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ] 
     };
 
     const symptomButtons = document.getElementById("symptom-buttons");
@@ -117,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
             let severitySelect = document.createElement("select");
             severitySelect.className = "severity-select";
-            ["Low", "Moderate", "High"].forEach(level => {
+            ["Low", "Medium", "High", "N/A"].forEach(level => {
                 let option = document.createElement("option");
                 option.value = level;
                 option.textContent = level;
@@ -151,9 +281,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        let possibleCauses = [];
-        let recommendedRepairs = [];
-
         selectedSymptoms.forEach(symptom => {
             /* if () {
                 possibleCauses.push();
@@ -163,19 +290,140 @@ document.addEventListener("DOMContentLoaded", function () {
             } */
         });
 
-        resultsContainer.innerHTML = '<h3>Possible Causes</h3>';
-        possibleCauses.forEach(cause => {
-            let div = document.createElement("div");
-            div.innerHTML = `<strong>${cause}</strong>`;
+        /**
+         * Compute most likely causes with percentage normalization
+         * @param {Array} selectedSymptoms - List of { symptom, severity }
+         * @returns {Array} Array of top 5 causes with percentages
+         */
+        function computeLikelyCauses(selectedSymptoms) {
+            const causeScores = Array(data.causes.length).fill(0);
+            let checkCount = 0;
+
+            selectedSymptoms.forEach(({ symptom }) => {
+                const symptomIndex = data.symptoms.indexOf(symptom);
+                if (symptomIndex !== -1) {
+                    checkCount++;
+                    for (let i = 0; i < data.causes.length; i++) {
+                        causeScores[i] += fullMatrix[i][symptomIndex]; // 0 or 1
+                    }
+                }
+            });
+
+            const percentages = causeScores.map(score =>
+                checkCount > 0 ? Math.round((score / checkCount) * 100) : 0
+            );
+
+            return data.causes
+                .map((cause, i) => ({ cause, percentage: percentages[i] }))
+                .sort((a, b) => b.percentage - a.percentage)
+                .slice(0, 5);
+        }
+
+
+        /**
+         * Compute best repair strategies with percentage normalization and duration
+         * @param {Array} selectedSymptoms - List of { symptom, severity }
+         * @returns {Array} Array of top 5 repair strategies with percentages and estimated duration
+         */
+        function computeBestRepairs(selectedSymptoms) {
+            const repairScores = Array(data.repairStrategies.length).fill(0);
+            let checkCount = 0;
+
+            selectedSymptoms.forEach(({ symptom, severity }) => {
+                const symptomIndex = data.symptoms.indexOf(symptom);
+                const matrix = fullTotalMatrix[severity];
+
+                if (symptomIndex !== -1 && matrix) {
+                    checkCount++;
+                    for (let i = 0; i < data.repairStrategies.length; i++) {
+                        repairScores[i] += matrix[i][symptomIndex]; // numeric weight
+                    }
+                }
+            });
+
+            const percentages = repairScores.map(score =>
+                checkCount > 0 ? Math.round((score / checkCount) * 100) : 0
+            );
+
+            return data.repairStrategies
+                .map((repair, i) => ({
+                    repair,
+                    percentage: percentages[i],
+                    duration: data.timeSync[i] // TimeSync is mapped by index
+                }))
+                .sort((a, b) => b.percentage - a.percentage)
+                .slice(0, 5);
+        }
+
+        /**
+         * Determine traditional repair strategy based on most likely causes
+         * @param {Array} selectedSymptoms - List of { symptom, severity }
+         * @returns {String} Traditional strategy based on the most likely causes
+         */
+        function getTraditionalRepair(selectedSymptoms) {
+            let likelyCauses = computeLikelyCauses(selectedSymptoms); // Get causes
+            let causeIndices = likelyCauses.map(c => data.causes.indexOf(c.cause));
+            let maxCheck = new Set();
+            let finalTradStrats = [];
+
+            causeIndices.forEach(index => {
+                let tradStrat = "";
+                let maxCheckNo = 0;
+
+                if (index < 3) {
+                    tradStrat = "No Available Treatment";
+                    maxCheckNo = 1;
+                } else if (index < 17) {
+                    tradStrat = "Avoiding Similar Mistakes During Maintenance And Reconstruction";
+                    maxCheckNo = 2;
+                } else if (index === 17) {
+                    tradStrat = "Designing Lanes For Different Vehicle Or Improve Traffic Allocation";
+                    maxCheckNo = 3;
+                } else if (index === 18) {
+                    tradStrat = "Improving Traffic Allocation";
+                    maxCheckNo = 4;
+                } else if (index === 19) {
+                    tradStrat = "Implementing Speed Reduction Measures";
+                    maxCheckNo = 5;
+                } else if (index < 22) {
+                    tradStrat = "Draining Surface Water";
+                    maxCheckNo = 6;
+                } else {
+                    tradStrat = "Repairing Surrounding Devices";
+                    maxCheckNo = 7;
+                }
+
+                // Ensure no duplicates
+                if (!maxCheck.has(maxCheckNo)) {
+                    maxCheck.add(maxCheckNo);
+                    finalTradStrats.push(tradStrat);
+                }
+            });
+
+            return finalTradStrats.join(" or ");
+        }
+
+        resultsContainer.innerHTML = "<h3>Possible Causes</h3>";
+        const possibleCauses = computeLikelyCauses(selectedSymptoms);
+        possibleCauses.forEach(item => {
+            const div = document.createElement("div");
+            div.innerHTML = `<strong>${item.cause}</strong>: ${item.percentage}%`;
             resultsContainer.appendChild(div);
         });
 
-        resultsContainer.innerHTML += `<h3>Recommended Repairs</h3>`;
-        recommendedRepairs.forEach(strategy => {
-            let div = document.createElement("div");
-            div.innerHTML = `<strong>${strategy}</strong>`;
+        resultsContainer.innerHTML += "<h3>Recommended Repairs</h3>";
+        const recommendedRepairs = computeBestRepairs(selectedSymptoms);
+        recommendedRepairs.forEach(item => {
+            const div = document.createElement("div");
+            div.innerHTML = `<strong>${item.repair}</strong>: ${item.percentage}% (Estimated Repair Duration: ${item.duration} years)`;
             resultsContainer.appendChild(div);
         });
+
+        resultsContainer.innerHTML += "<h3>Traditional Repair Strategy</h3>";
+        const traditional = getTraditionalRepair(selectedSymptoms);
+        const tradDiv = document.createElement("div");
+        tradDiv.innerHTML = `<strong>${traditional}</strong>`;
+        resultsContainer.appendChild(tradDiv);
     }
     diagnoseButton.addEventListener("click", getDiagnosis);
 });
