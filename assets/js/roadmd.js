@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
             "Raveling",
             "Bleeding",
             "Spalling",
-            "Flooding and Sounding Water",
+            "Flooding and Standing Water",
             "Scour",
             "Rocking",
             "Difference In Level",
@@ -197,6 +197,37 @@ document.addEventListener("DOMContentLoaded", function () {
             "1-2",
             "0.5"]
     };
+
+    const regionToSymptoms = {
+        pavement: [
+            "Transverse Cracks",
+            "Longitudinal Cracks",
+            "Edge Cracks",
+            "Block Cracks",
+            "Alligator Cracks",
+            "Potholes",
+            "Patches",
+            "Shoving",
+            "Rutting",
+            "Distortion",
+            "Raveling",
+            "Bleeding",
+            "Spalling",
+            "Scour",
+            "Rocking",
+            "Difference In Level"
+        ],
+        markings: [
+            "Material Fault",
+            "Skidding",
+            "Poor Retroflectivity",
+            "Poor Luminance"
+        ],
+        gully: [
+            "Blockage (Gully)",
+            "Flooding and Standing Water"
+        ]
+      };
 
     // Define Full, FullTotal, and severity matrices
 
@@ -545,6 +576,8 @@ document.addEventListener("DOMContentLoaded", function () {
         symptomButtons.appendChild(button);
     });
 
+    filterSymptomButtons([]);  // hides all until region is chosen
+
     // Autocomplete function
     input.addEventListener("input", function () {
         autocompleteList.innerHTML = "";
@@ -693,6 +726,40 @@ document.addEventListener("DOMContentLoaded", function () {
         container.append(chip, grid, removeBtn);
         selectedSymptoms.appendChild(container);
     }
+
+    function filterSymptomButtons(allowedList) {
+        document.querySelectorAll(".symptom-button").forEach(btn => {
+          btn.style.display = allowedList.includes(btn.textContent)
+            ? "inline-block"
+            : "none";
+        });
+    }
+
+    // ————— Hook up the SVG click-zones —————
+    document
+    .querySelectorAll("#road-selector svg g[id]")
+    .forEach(regionEl => {
+        regionEl.style.cursor = "pointer";
+        regionEl.addEventListener("click", () => {
+        const region   = regionEl.id;    // "markings", "gullies", etc.
+        const list     = regionToSymptoms[region] || [];
+
+        // 1) Clear any previously selected symptom chips
+        // selectedSymptoms.innerHTML = "";
+
+        // 2) Seed the UI with only that region’s defects
+        // list.forEach(sym => addSymptom(sym));
+
+        // 3) Optionally highlight the clicked region
+        document
+            .querySelectorAll("#road-selector svg g[id]")
+            .forEach(el => el.classList.remove("active"));
+        regionEl.classList.add("active");
+
+        // 4) Filter your button grid (if you still have that)
+        filterSymptomButtons(list);
+        });
+    });
 
     function getRepairVector(symptomIndex, severity, quantity) {
         const threshold = parseFloat(document.getElementById("road-length-input").value) / 2;

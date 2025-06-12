@@ -1,5 +1,5 @@
 #symptom-checker {
-    max-width: 800px;
+    width: 800px;
     margin: 20px auto;
     background: white;
     padding: 20px;
@@ -298,4 +298,52 @@ input.severity-quantity::-webkit-outer-spin-button {
     margin: 0;
     display: inline-block;
     vertical-align: middle;
+}
+
+#road-selector {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 20px;
+}
+
+#road-selector svg {
+    width: 100%;
+    height: auto;
+    user-select: none;
+}
+
+/* Make every group in your road-selector SVG look clickable */
+#road-selector svg g {
+    cursor: pointer;
+}
+
+#road-selector svg g {
+    transition: fill 0.2s, stroke 0.2s;
+}
+
+/*  
+  1) Allow pointer events on every shape inside each group  
+  2) Force our hover/active fill to override the SVG's inline fill
+*/
+#road-selector svg g,
+#road-selector svg g * {
+  pointer-events: all;
+}
+
+/* Hover = light, quick tint */
+#road-selector svg g:hover,
+#road-selector svg g:hover * {
+  fill: rgba(0, 123, 255, 0.15) !important;
+  fill-opacity: 1 !important;
+  stroke: rgba(0, 86, 179, 0.8) !important;
+  transition: fill 0.1s, stroke 0.1s;
+}
+
+/* Active = stronger tint + outline */
+#road-selector svg g.active,
+#road-selector svg g.active * {
+  fill: rgba(0, 86, 179, 0.5) !important;
+  fill-opacity: 1 !important;
+  stroke-width: 1.2 !important;
+  transition: fill 0.1s, stroke-width 0.1s;
 }
