@@ -10,28 +10,33 @@
 <body>
     <div id="header"></div>
 
-    <div class="step-nav">
-        <div class="nav-item" id="nav-step1">Step 1: Road Info</div>
-        <div class="nav-item" id="nav-step2">Step 2: Defects</div>
-        <div class="nav-item" id="nav-step3">Step 3: Results</div>
-    </div>
-
-    <div id="step-1" class="step">
-        <h2>RoadMD</h2>
-        <label for="road-material">Road Material:</label>
-        <select id="road-material">
-            <option value="" disabled selected>Select material</option>
-            <option value="asphalt">Asphalt</option>
-            <option value="concrete">Concrete</option>
-        </select>
-
-        <label for="road-length-input">Road Length (m):</label>
-        <input type="number" id="road-length-input" placeholder="Enter road length in meters">
-
-        <div class="navigation">
-            <button id="to-step-2">Continue</button>
+    <div id="symptom-checker">
+        <div class="step-nav">
+            <div class="nav-item" id="nav-step1">Step 1: Road Info</div>
+            <div class="nav-item" id="nav-step2">Step 2: Defects</div>
+            <div class="nav-item" id="nav-step3">Step 3: Results</div>
         </div>
-    </div>
+
+        <div id="step-1" class="step">
+            <h2>RoadMD</h2>
+            <div class="step1-grid">
+                <div class="road-length">
+                    <label for="road-length-input">Road Length (m)</label>
+                    <input type="number" id="road-length-input" placeholder="Enter road length in meters">
+                </div>
+                <div class="road-material">
+                    <label>Road Material</label>
+                    <div class="material-toggle">
+                        <label><input type="radio" name="road-material" value="asphalt" checked> Asphalt</label>
+                        <label><input type="radio" name="road-material" value="concrete"> Concrete</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation justify-right">
+                <button id="to-step-2">Continue</button>
+            </div>
+        </div>
 
     <div id="step-2" class="step">
         <h2>Select Defects</h2>
@@ -63,6 +68,11 @@
         </div>
         <div id="symptom-buttons" class="symptom-buttons"></div>
 
+        <div id="table-options">
+            <input type="checkbox" id="full-tables" />
+            <label for="full-tables">Show full tables</label>
+        </div>
+
         <div class="navigation">
             <button id="back-to-step-1">Previous</button>
             <button id="diagnose-button">Continue</button>
@@ -71,15 +81,14 @@
 
     <div id="step-3" class="step">
         <h2>Results</h2>
-        <div id="table-options">
-            <input type="checkbox" id="full-tables" />
-            <label for="full-tables">Show full tables</label>
-        </div>
+
         <div id="results"></div>
         <div class="navigation">
             <button id="back-to-step-2">Previous</button>
         </div>
     </div>
+
+    </div> <!-- end symptom-checker -->
 
     <div id="footer"></div>
 
