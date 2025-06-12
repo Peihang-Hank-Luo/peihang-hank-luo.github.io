@@ -9,133 +9,90 @@
 </head>
 <body>
     <div id="header"></div>
-    
+
     <div id="symptom-checker">
-        <h2>RoadMD</h2>
+        <div class="step-nav">
+            <div class="nav-item" id="nav-step1">Step 1: Road Info</div>
+            <div class="nav-item" id="nav-step2">Step 2: Defects</div>
+            <div class="nav-item" id="nav-step3">Step 3: Results</div>
+        </div>
+
+        <div id="step-1" class="step">
+            <h2>RoadMD</h2>
+            <div class="step1-grid">
+                <div class="road-length">
+                    <label for="road-length-input">Road Length (m)</label>
+                    <input type="number" id="road-length-input" placeholder="Enter road length in meters">
+                </div>
+                <div class="road-material">
+                    <label>Road Material</label>
+                    <div class="material-toggle">
+                        <label><input type="radio" name="road-material" value="asphalt" checked> Asphalt</label>
+                        <label><input type="radio" name="road-material" value="concrete"> Concrete</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation justify-right">
+                <button id="to-step-2">Continue</button>
+            </div>
+        </div>
+
+    <div id="step-2" class="step">
+        <h2>Select Defects</h2>
         <input type="text" id="symptom-input" placeholder="Enter road defects...">
         <div id="autocomplete-list" class="autocomplete-list"></div>
         <div id="selected-symptoms"></div>
 
-        <h3>Enter Road Length:</h3>
-        <input type="number" id="road-length-input" placeholder="Enter road length in meters">
-
-        <h3>Select Defects:</h3>
         <div id="road-selector">
-            <svg
-                viewBox="40 74 130 60"
-                xmlns="http://www.w3.org/2000/svg">
+            <svg viewBox="40 74 130 60" xmlns="http://www.w3.org/2000/svg">
             <g id="pavement">
-                <rect
-                style="fill:#ffffff;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="pavement-rect"
-                width="121.56"
-                height="55.06"
-                x="44.47"
-                y="76.47" />
+                <rect style="fill:#ffffff;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="pavement-rect" width="121.56" height="55.06" x="44.47" y="76.47" />
             </g>
             <g id="markings">
-                <rect
-                style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="marking-1"
-                width="8.04"
-                height="3.76"
-                x="50.2"
-                y="101.3" />
-                <rect
-                style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="marking-2"
-                width="8.04"
-                height="3.76"
-                x="67.2"
-                y="101.3" />
-                <rect
-                style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="marking-3"
-                width="8.04"
-                height="3.76"
-                x="84.2"
-                y="101.3" />
-                <rect
-                style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="marking-4"
-                width="8.04"
-                height="3.76"
-                x="101.2"
-                y="101.3" />
-                <rect
-                style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="marking-5"
-                width="8.04"
-                height="3.76"
-                x="118.2"
-                y="101.3" />
-                <rect
-                style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="marking-6"
-                width="8.04"
-                height="3.76"
-                x="135.2"
-                y="101.3" />
-                <rect
-                style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="marking-7"
-                width="8.04"
-                height="3.76"
-                x="152.2"
-                y="101.3" />
+                <rect style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="marking-1" width="8.04" height="3.76" x="50.2" y="101.3" />
+                <rect style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="marking-2" width="8.04" height="3.76" x="67.2" y="101.3" />
+                <rect style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="marking-3" width="8.04" height="3.76" x="84.2" y="101.3" />
+                <rect style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="marking-4" width="8.04" height="3.76" x="101.2" y="101.3" />
+                <rect style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="marking-5" width="8.04" height="3.76" x="118.2" y="101.3" />
+                <rect style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="marking-6" width="8.04" height="3.76" x="135.2" y="101.3" />
+                <rect style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="marking-7" width="8.04" height="3.76" x="152.2" y="101.3" />
             </g>
             <g id="gully">
-                <rect
-                style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="gully-rect"
-                width="16.94"
-                height="8.9"
-                x="58"
-                y="79.2" />
-                <rect
-                style="fill:#ffffff;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="gully-hole-1"
-                width="2.4"
-                height="5.47"
-                x="60.28"
-                y="80.95" />
-                <rect
-                style="fill:#ffffff;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="gully-hole-2"
-                width="2.4"
-                height="5.47"
-                x="65.28"
-                y="80.95" />
-                <rect
-                style="fill:#ffffff;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1"
-                id="gully-hole-3"
-                width="2.4"
-                height="5.47"
-                x="70.28"
-                y="80.95" />
+                <rect style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="gully-rect" width="16.94" height="8.9" x="58" y="79.2" />
+                <rect style="fill:#ffffff;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="gully-hole-1" width="2.4" height="5.47" x="60.28" y="80.95" />
+                <rect style="fill:#ffffff;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="gully-hole-2" width="2.4" height="5.47" x="65.28" y="80.95" />
+                <rect style="fill:#ffffff;fill-opacity:0;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1" id="gully-hole-3" width="2.4" height="5.47" x="70.28" y="80.95" />
             </g>
             </svg>
-            <!-- <svg viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
-              <path id="pavement"       d="M10,150 h580 v40 h-580 z" fill="#ccc" stroke="#999"/>
-              <path id="markings"       d="M10,170 h580"         stroke="#fff" stroke-width="5"/>
-              <path id="gully"          d="M10,190 h580 v10 h-580 z" fill="#88c" stroke="#55a"/>
-            </svg> -->
         </div>
         <div id="symptom-buttons" class="symptom-buttons"></div>
-
-        <button id="diagnose-button">Continue</button>
 
         <div id="table-options">
             <input type="checkbox" id="full-tables" />
             <label for="full-tables">Show full tables</label>
         </div>
 
-        <div id="results"></div>
+        <div class="navigation">
+            <button id="back-to-step-1">Previous</button>
+            <button id="diagnose-button">Continue</button>
+        </div>
     </div>
+
+    <div id="step-3" class="step">
+        <h2>Results</h2>
+        <div id="results"></div>
+        <div class="navigation">
+            <button id="back-to-step-2">Previous</button>
+        </div>
+    </div>
+
+    </div> <!-- end symptom-checker -->
 
     <div id="footer"></div>
 
     <script src="../assets/js/scripts.js"></script>
     <script src="../assets/js/roadmd.js"></script>
+    <script src="../assets/js/wizard.js"></script>
 </body>
 </html>
