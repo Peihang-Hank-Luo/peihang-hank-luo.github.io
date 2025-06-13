@@ -384,7 +384,7 @@ input.severity-quantity::-webkit-outer-spin-button {
 }
 
 .navigation.justify-right button {
-    width: auto;
+    width: 48%;
 }
 
 .step1-grid {
@@ -396,6 +396,10 @@ input.severity-quantity::-webkit-outer-spin-button {
 .step1-grid > div {
     flex: 1;
     text-align: center;
+}
+
+.road-length input {
+    width: 50%;
 }
 
 .step1-grid label {
