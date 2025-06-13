@@ -422,15 +422,12 @@ input.severity-quantity::-webkit-outer-spin-button {
 
 .material-toggle {
     display: flex;
+    gap: 10px;
     margin-top: 8px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
-    overflow: hidden;
     width: 100%;
     max-width: 260px;
     margin-left: auto;
     margin-right: auto;
-    background: #f0f0f0;
 }
 
 .material-toggle input {
@@ -439,17 +436,23 @@ input.severity-quantity::-webkit-outer-spin-button {
 
 .material-toggle label {
     flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     padding: 8px 0;
     cursor: pointer;
     text-align: center;
     user-select: none;
-    line-height: 1;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background: #f0f0f0;
+    transition: background 0.2s;
+}
+
+.material-toggle label:hover {
+    background: #e0e0e0;
 }
 
 .material-toggle input:checked + label {
     background: #007BFF;
     color: #fff;
+    border-color: #007BFF;
 }
