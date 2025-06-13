@@ -347,3 +347,97 @@ input.severity-quantity::-webkit-outer-spin-button {
   stroke-width: 1.2 !important;
   transition: fill 0.1s, stroke-width 0.1s;
 }
+.step {
+    display: none;
+}
+
+.step-nav {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.step-nav .nav-item {
+    background: #eee;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.step-nav .nav-item.active {
+    background: #007BFF;
+    color: #fff;
+}
+
+.navigation {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navigation button {
+    width: 48%;
+}
+
+.navigation.justify-right {
+    justify-content: flex-end;
+}
+
+.navigation.justify-right button {
+    width: 48%;
+}
+
+.step1-grid {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.step1-grid > div {
+    flex: 1;
+    text-align: center;
+}
+
+.road-length input {
+    width: 60%;
+    display: block;
+    margin: 0 auto;
+}
+
+.step1-grid label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.material-toggle {
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.material-toggle input {
+    display: none;
+}
+
+.material-toggle label {
+    display: block;
+    padding: 6px 18px;
+    cursor: pointer;
+    background: #f0f0f0;
+    flex: 1 0 auto;
+    text-align: center;
+}
+
+.material-toggle input:checked + label {
+    background: #007BFF;
+    color: #fff;
+}
