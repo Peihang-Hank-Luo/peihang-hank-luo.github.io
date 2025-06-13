@@ -402,7 +402,7 @@ input.severity-quantity::-webkit-outer-spin-button {
 }
 
 .road-length input {
-    width: 60%;
+    width: 70%;
     display: block;
     margin: 0 auto;
 }
@@ -422,6 +422,7 @@ input.severity-quantity::-webkit-outer-spin-button {
     width: max-content;
     margin-left: auto;
     margin-right: auto;
+    background: #f0f0f0;
 }
 
 .material-toggle input {
