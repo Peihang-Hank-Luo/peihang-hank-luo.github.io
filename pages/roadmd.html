@@ -25,10 +25,13 @@
                     <input type="number" id="road-length-input" placeholder="Enter road length in meters">
                 </div>
                 <div class="road-material">
-                    <label>Road Material</label>
+                    <label for="material-asphalt">Road Material</label>
                     <div class="material-toggle">
-                        <label><input type="radio" name="road-material" value="asphalt" checked> Asphalt</label>
-                        <label><input type="radio" name="road-material" value="concrete"> Concrete</label>
+                        <input type="radio" id="material-asphalt" name="road-material" value="asphalt" checked>
+                        <label for="material-asphalt">Asphalt</label>
+                        <input type="radio" id="material-concrete" name="road-material" value="concrete">
+                        <label for="material-concrete">Concrete</label>
+
                     </div>
                 </div>
             </div>
@@ -81,7 +84,6 @@
 
     <div id="step-3" class="step">
         <h2>Results</h2>
-
         <div id="results"></div>
         <div class="navigation">
             <button id="back-to-step-2">Previous</button>
