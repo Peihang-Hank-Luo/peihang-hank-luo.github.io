@@ -387,6 +387,14 @@ input.severity-quantity::-webkit-outer-spin-button {
     width: 48%;
 }
 
+.navigation.single {
+    justify-content: center;
+}
+
+.navigation.single button {
+    width: 48%;
+}
+
 .step1-grid {
     display: flex;
     gap: 20px;
@@ -402,7 +410,7 @@ input.severity-quantity::-webkit-outer-spin-button {
 }
 
 .road-length input {
-    width: 70%;
+    width: 65%;
     display: block;
     margin: 0 auto;
 }
@@ -430,12 +438,14 @@ input.severity-quantity::-webkit-outer-spin-button {
 }
 
 .material-toggle label {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 6px 18px;
     cursor: pointer;
-    background: #f0f0f0;
-    flex: 1 0 auto;
+    flex: 1 1 50%;
     text-align: center;
+    line-height: 1;
 }
 
 .material-toggle input:checked + label {
