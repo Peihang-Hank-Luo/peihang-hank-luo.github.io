@@ -383,6 +383,10 @@ input.severity-quantity::-webkit-outer-spin-button {
     justify-content: flex-end;
 }
 
+.navigation.justify-right button {
+    width: auto;
+}
+
 .step1-grid {
     display: flex;
     gap: 20px;
@@ -394,9 +398,36 @@ input.severity-quantity::-webkit-outer-spin-button {
     text-align: center;
 }
 
+.step1-grid label {
+    display: block;
+    margin-bottom: 8px;
+}
+
 .material-toggle {
     display: flex;
     justify-content: center;
-    gap: 15px;
     margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+    width: max-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.material-toggle input {
+    display: none;
+}
+
+.material-toggle label {
+    padding: 6px 18px;
+    cursor: pointer;
+    background: #f0f0f0;
+    flex: 1 0 auto;
+    text-align: center;
+}
+
+.material-toggle input:checked + label {
+    background: #007BFF;
+    color: #fff;
 }
