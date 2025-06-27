@@ -1,3 +1,27 @@
+function parseCSVLine(line) {
+    const result = [];
+    let cur = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+            if (inQuotes && line[i+1] === '"') {
+                cur += '"';
+                i++; // skip escaped quote
+            } else {
+                inQuotes = !inQuotes;
+            }
+        } else if (ch === ',' && !inQuotes) {
+            result.push(cur);
+            cur = '';
+        } else {
+            cur += ch;
+        }
+    }
+    result.push(cur);
+    return result;
+}
+
 async function loadCSV(path) {
     let text;
     if (typeof window === 'undefined') {
@@ -8,11 +32,13 @@ async function loadCSV(path) {
         text = await resp.text();
     }
     const [header, ...lines] = text.trim().split(/\r?\n/);
-    const keys = header.split(',');
+    const keys = parseCSVLine(header).map(k => k.trim());
     return lines.map(line => {
-        const values = line.split(',');
+        const values = parseCSVLine(line).map(v => v.trim());
         const obj = {};
-        keys.forEach((k,i)=> obj[k.trim()] = values[i] ? values[i].trim() : '');
+        keys.forEach((k, i) => {
+            obj[k] = values[i] !== undefined ? values[i] : '';
+        });
         return obj;
     });
 }
