@@ -8,13 +8,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     const costRank = loaded.costRank;           // 1=low 2=medium 3=high
     const lifeMean = loaded.lifeMean;
 
+    // Map of road asset to the defects belonging to that asset. The
+    // defect names must exactly match those loaded from the CSV files
+    // otherwise the filter will fail to show/hide them correctly.
     const regionToSymptoms = {
         pavement: [
-            "Transverse Cracks",
-            "Longitudinal Cracks",
-            "Edge Cracks",
-            "Block Cracks",
-            "Alligator Cracks",
+            "Transverse",
+            "Longitudinal",
+            "Edge",
+            "Block",
+            "Alligator",
             "Potholes",
             "Patches",
             "Shoving",
@@ -23,19 +26,21 @@ document.addEventListener("DOMContentLoaded", async function () {
             "Raveling",
             "Bleeding",
             "Spalling",
-            "Scour",
-            "Rocking",
-            "Difference In Level"
+            "Surface irregularities",
+            "Slab rocking",
+            "Stepping"
         ],
         markings: [
-            "Material Fault",
+            "Material fault",
             "Skidding",
-            "Poor Retroflectivity",
-            "Poor Luminance"
+            "Poor retroreflectivity",
+            "Poor luminance",
+            "Stud defects",
+            "Stud retroreflectivity"
         ],
         gully: [
-            "Blockage (Gully)",
-            "Flooding and Standing Water"
+            "Blockage (gully)",
+            "Flooding and standing water"
         ]
     };
 
