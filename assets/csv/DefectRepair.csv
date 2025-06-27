@@ -1,0 +1,317 @@
+﻿Disease,Defect,Severity,SeverityName,RepairStratCategory,RepairStrat,RepairStratName,LifetimeMinYears,LifetimeMaxYears,LifetimeMean
+Cracking,Alligator,1,Low,Sealing,l,Seal coat,3,6,4.5
+Cracking,Alligator,1,Low,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Alligator,1,Low,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Alligator,1,Low,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Alligator,2,Medium,Patching,g,Cold-mix asphalt,1,1,1
+Cracking,Alligator,2,Medium,Patching,h,Hot-mix asphalt,1,1,1
+Cracking,Alligator,2,Medium,Patching,i,Spray injection,5,5,5
+Cracking,Alligator,2,Medium,Patching,j,Slurry or microsurfacing,3,5,4
+Cracking,Alligator,2,Medium,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Alligator,2,Medium,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Alligator,3,High,Patching,g,Cold-mix asphalt,1,1,1
+Cracking,Alligator,3,High,Patching,h,Hot-mix asphalt,1,1,1
+Cracking,Alligator,3,High,Patching,i,Spray injection,5,5,5
+Cracking,Alligator,3,High,Patching,j,Slurry or microsurfacing,3,5,4
+Cracking,Alligator,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Block,1,Low,Crack sealing,a,Rout and seal,3,5,4
+Cracking,Block,1,Low,Crack sealing,b,Clean and seal,3,5,4
+Cracking,Block,1,Low,Sealing,l,Seal coat,3,6,4.5
+Cracking,Block,1,Low,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Block,1,Low,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Block,1,Low,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Block,2,Medium,Sealing,l,Seal coat,3,6,4.5
+Cracking,Block,2,Medium,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Block,2,Medium,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Cracking,Block,2,Medium,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Block,2,Medium,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Block,3,High,Filling,c,Asphalt emulsion,1,1,1
+Cracking,Block,3,High,Filling,d,Rubberised fillers,2,3,2.5
+Cracking,Block,3,High,Filling,e,Microsurfacing material,2,3,2.5
+Cracking,Block,3,High,Patching,g,Cold-mix asphalt,1,1,1
+Cracking,Block,3,High,Patching,h,Hot-mix asphalt,1,1,1
+Cracking,Block,3,High,Patching,i,Spray injection,5,5,5
+Cracking,Block,3,High,Patching,j,Slurry or microsurfacing,3,5,4
+Cracking,Block,3,High,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Block,3,High,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Cracking,Block,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Edge,1,Low,Filling,c,Asphalt emulsion,1,1,1
+Cracking,Edge,1,Low,Filling,d,Rubberised fillers,2,3,2.5
+Cracking,Edge,1,Low,Filling,e,Microsurfacing material,2,3,2.5
+Cracking,Edge,1,Low,Sealing,k,Slurry seal,3,5,4
+Cracking,Edge,1,Low,Sealing,l,Seal coat,3,6,4.5
+Cracking,Edge,1,Low,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Edge,1,Low,Sealing,n,Microsurfacing,5,8,6.5
+Cracking,Edge,1,Low,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Cracking,Edge,1,Low,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Edge,1,Low,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Edge,2,Medium,Sealing,l,Seal coat,3,6,4.5
+Cracking,Edge,2,Medium,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Edge,2,Medium,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Cracking,Edge,2,Medium,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Edge,2,Medium,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Edge,3,High,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Edge,3,High,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Cracking,Edge,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Longitudinal,1,Low,Crack sealing,a,Rout and seal,3,5,4
+Cracking,Longitudinal,1,Low,Crack sealing,b,Clean and seal,3,5,4
+Cracking,Longitudinal,1,Low,Filling,c,Asphalt emulsion,1,1,1
+Cracking,Longitudinal,1,Low,Filling,d,Rubberised fillers,2,3,2.5
+Cracking,Longitudinal,1,Low,Filling,e,Microsurfacing material,2,3,2.5
+Cracking,Longitudinal,1,Low,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Longitudinal,1,Low,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Longitudinal,1,Low,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Longitudinal,2,Medium,Crack sealing,a,Rout and seal,3,5,4
+Cracking,Longitudinal,2,Medium,Crack sealing,b,Clean and seal,3,5,4
+Cracking,Longitudinal,2,Medium,Filling,c,Asphalt emulsion,1,1,1
+Cracking,Longitudinal,2,Medium,Filling,d,Rubberised fillers,2,3,2.5
+Cracking,Longitudinal,2,Medium,Filling,e,Microsurfacing material,2,3,2.5
+Cracking,Longitudinal,2,Medium,Filling,f,Full depth repair,15,20,17.5
+Cracking,Longitudinal,2,Medium,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Longitudinal,2,Medium,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Longitudinal,2,Medium,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Longitudinal,3,High,Filling,c,Asphalt emulsion,1,1,1
+Cracking,Longitudinal,3,High,Filling,d,Rubberised fillers,2,3,2.5
+Cracking,Longitudinal,3,High,Filling,e,Microsurfacing material,2,3,2.5
+Cracking,Longitudinal,3,High,Filling,f,Full depth repair,15,20,17.5
+Cracking,Longitudinal,3,High,Patching,g,Cold-mix asphalt,1,1,1
+Cracking,Longitudinal,3,High,Patching,h,Hot-mix asphalt,1,1,1
+Cracking,Longitudinal,3,High,Patching,i,Spray injection,5,5,5
+Cracking,Longitudinal,3,High,Patching,j,Slurry or microsurfacing,3,5,4
+Cracking,Longitudinal,3,High,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Longitudinal,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Transverse,1,Low,Crack sealing,a,Rout and seal,3,5,4
+Cracking,Transverse,1,Low,Crack sealing,b,Clean and seal,3,5,4
+Cracking,Transverse,1,Low,Sealing,l,Seal coat,3,6,4.5
+Cracking,Transverse,1,Low,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Transverse,1,Low,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Transverse,2,Medium,Crack sealing,a,Rout and seal,3,5,4
+Cracking,Transverse,2,Medium,Crack sealing,b,Clean and seal,3,5,4
+Cracking,Transverse,2,Medium,Filling,c,Asphalt emulsion,1,1,1
+Cracking,Transverse,2,Medium,Sealing,l,Seal coat,3,6,4.5
+Cracking,Transverse,2,Medium,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Transverse,2,Medium,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Transverse,2,Medium,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Cracking,Transverse,3,High,Filling,c,Asphalt emulsion,1,1,1
+Cracking,Transverse,3,High,Filling,d,Rubberised fillers,2,3,2.5
+Cracking,Transverse,3,High,Filling,e,Microsurfacing material,2,3,2.5
+Cracking,Transverse,3,High,Filling,f,Full depth repair,15,20,17.5
+Cracking,Transverse,3,High,Patching,g,Cold-mix asphalt,1,1,1
+Cracking,Transverse,3,High,Patching,h,Hot-mix asphalt,1,1,1
+Cracking,Transverse,3,High,Patching,i,Spray injection,5,5,5
+Cracking,Transverse,3,High,Patching,j,Slurry or microsurfacing,3,5,4
+Cracking,Transverse,3,High,Sealing,l,Seal coat,3,6,4.5
+Cracking,Transverse,3,High,Sealing,m,Double chip seal,7,10,8.5
+Cracking,Transverse,3,High,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Cracking,Transverse,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Disintegration,Patches,1,Low,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Disintegration,Patches,2,Medium,Patching,g,Cold-mix asphalt,1,1,1
+Disintegration,Patches,2,Medium,Patching,h,Hot-mix asphalt,1,1,1
+Disintegration,Patches,2,Medium,Patching,i,Spray injection,5,5,5
+Disintegration,Patches,2,Medium,Patching,j,Slurry or microsurfacing,3,5,4
+Disintegration,Patches,2,Medium,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Disintegration,Patches,2,Medium,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Disintegration,Patches,3,High,Patching,g,Cold-mix asphalt,1,1,1
+Disintegration,Patches,3,High,Patching,h,Hot-mix asphalt,1,1,1
+Disintegration,Patches,3,High,Patching,i,Spray injection,5,5,5
+Disintegration,Patches,3,High,Patching,j,Slurry or microsurfacing,3,5,4
+Disintegration,Patches,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Disintegration,Potholes,1,Low,Patching,g,Cold-mix asphalt,1,1,1
+Disintegration,Potholes,1,Low,Patching,h,Hot-mix asphalt,1,1,1
+Disintegration,Potholes,1,Low,Patching,i,Spray injection,5,5,5
+Disintegration,Potholes,1,Low,Patching,j,Slurry or microsurfacing,3,5,4
+Disintegration,Potholes,2,Medium,Patching,g,Cold-mix asphalt,1,1,1
+Disintegration,Potholes,2,Medium,Patching,h,Hot-mix asphalt,1,1,1
+Disintegration,Potholes,2,Medium,Patching,i,Spray injection,5,5,5
+Disintegration,Potholes,2,Medium,Patching,j,Slurry or microsurfacing,3,5,4
+Disintegration,Potholes,3,High,Patching,g,Cold-mix asphalt,1,1,1
+Disintegration,Potholes,3,High,Patching,h,Hot-mix asphalt,1,1,1
+Disintegration,Potholes,3,High,Patching,i,Spray injection,5,5,5
+Disintegration,Potholes,3,High,Patching,j,Slurry or microsurfacing,3,5,4
+Drainage failure,Flooding and standing water,3,High,Foundation repair,aj,Foundation improvement,unknown,unknown,unknown
+Drainage failure,Flooding and standing water,3,High,Drainage renewal,ae,Unblocking,1,3,2
+Hinderance,Blockage (gully),1,Low,Drainage renewal,ae,Unblocking,1,3,2
+Hinderance,Blockage (gully),1,Low,Drainage renewal,af,Gully cleaning,1,3,2
+Hinderance,Blockage (gully),2,Medium,Drainage renewal,ae,Unblocking,1,3,2
+Hinderance,Blockage (gully),2,Medium,Drainage renewal,af,Gully cleaning,1,3,2
+Hinderance,Blockage (gully),3,High,Drainage renewal,ad,Removal and replacement (gully),50,>50,50
+Hinderance,Blockage (gully),3,High,Drainage renewal,ae,Unblocking,1,3,2
+Hinderance,Blockage (gully),3,High,Drainage renewal,af,Gully cleaning,1,3,2
+Road marking defects,Material fault,0,Very Low,Painting,ab,Repainting,1,10,5.5
+Road marking defects,Material fault,1,Low,Painting,ab,Repainting,1,10,5.5
+Road marking defects,Material fault,2,Medium,Painting,ab,Repainting,1,10,5.5
+Road marking defects,Material fault,3,High,Painting,ab,Repainting,1,10,5.5
+Road marking defects,Poor luminance,3,High,Painting,ab,Repainting,1,10,5.5
+Road marking defects,Poor luminance,3,High,Clearing,ac,Sweeping,1,3,2
+Road marking defects,Poor retroreflectivity,3,High,Painting,ab,Repainting,1,10,5.5
+Road marking defects,Poor retroreflectivity,3,High,Clearing,ac,Sweeping,1,3,2
+Road marking defects,Skidding,3,High,Painting,ab,Repainting,1,10,5.5
+Road marking defects,Skidding,3,High,Clearing,ac,Sweeping,1,3,2
+Road marking defects,Stud defects,3,High,Other,ag,Removal and replacement (stud),3,10,6.5
+Road marking defects,Stud retroreflectivity,3,High,Other,ag,Removal and replacement (stud),3,10,6.5
+Road marking defects,Stud retroreflectivity,2,Medium,Other,ag,Removal and replacement (stud),3,10,6.5
+Surface defects,Bleeding,1,Low,Sealing,k,Slurry seal,3,5,4
+Surface defects,Bleeding,1,Low,Sealing,l,Seal coat,3,6,4.5
+Surface defects,Bleeding,1,Low,Sealing,m,Double chip seal,7,10,8.5
+Surface defects,Bleeding,1,Low,Sealing,n,Microsurfacing,5,8,6.5
+Surface defects,Bleeding,2,Medium,Sealing,k,Slurry seal,3,5,4
+Surface defects,Bleeding,2,Medium,Sealing,l,Seal coat,3,6,4.5
+Surface defects,Bleeding,2,Medium,Sealing,m,Double chip seal,7,10,8.5
+Surface defects,Bleeding,2,Medium,Sealing,n,Microsurfacing,5,8,6.5
+Surface defects,Bleeding,3,High,Sealing,k,Slurry seal,3,5,4
+Surface defects,Bleeding,3,High,Sealing,l,Seal coat,3,6,4.5
+Surface defects,Bleeding,3,High,Sealing,m,Double chip seal,7,10,8.5
+Surface defects,Bleeding,3,High,Sealing,n,Microsurfacing,5,8,6.5
+Surface defects,Bleeding,3,High,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Surface defects,Raveling,1,Low,Other,r,Fog seal,1,2,1.5
+Surface defects,Raveling,2,Medium,Sealing,l,Seal coat,3,6,4.5
+Surface defects,Raveling,2,Medium,Other,r,Fog seal,1,2,1.5
+Surface defects,Raveling,3,High,Patching,g,Cold-mix asphalt,1,1,1
+Surface defects,Raveling,3,High,Patching,h,Hot-mix asphalt,1,1,1
+Surface defects,Raveling,3,High,Patching,i,Spray injection,5,5,5
+Surface defects,Raveling,3,High,Patching,j,Slurry or microsurfacing,3,5,4
+Surface defects,Raveling,3,High,Sealing,k,Slurry seal,3,5,4
+Surface defects,Raveling,3,High,Sealing,l,Seal coat,3,6,4.5
+Surface defects,Raveling,3,High,Sealing,m,Double chip seal,7,10,8.5
+Surface defects,Raveling,3,High,Sealing,n,Microsurfacing,5,8,6.5
+Surface defects,Raveling,3,High,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Surface defects,Spalling,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Surface deformation,Distortion,1,Low,Sealing,m,Double chip seal,7,10,8.5
+Surface deformation,Distortion,1,Low,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Surface deformation,Distortion,1,Low,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Surface deformation,Distortion,2,Medium,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Surface deformation,Distortion,2,Medium,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Surface deformation,Distortion,2,Medium,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Surface deformation,Distortion,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Surface deformation,Rutting,1,Low,Patching,g,Cold-mix asphalt,1,1,1
+Surface deformation,Rutting,1,Low,Patching,h,Hot-mix asphalt,1,1,1
+Surface deformation,Rutting,1,Low,Patching,i,Spray injection,5,5,5
+Surface deformation,Rutting,1,Low,Patching,j,Slurry or microsurfacing,3,5,4
+Surface deformation,Rutting,1,Low,Sealing,n,Microsurfacing,5,8,6.5
+Surface deformation,Rutting,1,Low,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Surface deformation,Rutting,1,Low,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Surface deformation,Rutting,2,Medium,Patching,g,Cold-mix asphalt,1,1,1
+Surface deformation,Rutting,2,Medium,Patching,h,Hot-mix asphalt,1,1,1
+Surface deformation,Rutting,2,Medium,Patching,i,Spray injection,5,5,5
+Surface deformation,Rutting,2,Medium,Patching,j,Slurry or microsurfacing,3,5,4
+Surface deformation,Rutting,2,Medium,Sealing,k,Slurry seal,3,5,4
+Surface deformation,Rutting,2,Medium,Sealing,n,Microsurfacing,5,8,6.5
+Surface deformation,Rutting,2,Medium,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Surface deformation,Rutting,2,Medium,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Surface deformation,Rutting,2,Medium,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Surface deformation,Rutting,3,High,Patching,g,Cold-mix asphalt,1,1,1
+Surface deformation,Rutting,3,High,Patching,h,Hot-mix asphalt,1,1,1
+Surface deformation,Rutting,3,High,Patching,i,Spray injection,5,5,5
+Surface deformation,Rutting,3,High,Patching,j,Slurry or microsurfacing,3,5,4
+Surface deformation,Rutting,3,High,Sealing,n,Microsurfacing,5,8,6.5
+Surface deformation,Rutting,3,High,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Surface deformation,Rutting,3,High,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Surface deformation,Rutting,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Surface deformation,Shoving,1,Low,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Surface deformation,Shoving,1,Low,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Surface deformation,Shoving,2,Medium,Patching,g,Cold-mix asphalt,1,1,1
+Surface deformation,Shoving,2,Medium,Patching,h,Hot-mix asphalt,1,1,1
+Surface deformation,Shoving,2,Medium,Patching,i,Spray injection,5,5,5
+Surface deformation,Shoving,2,Medium,Patching,j,Slurry or microsurfacing,3,5,4
+Surface deformation,Shoving,2,Medium,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Surface deformation,Shoving,2,Medium,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Surface deformation,Shoving,3,High,Patching,g,Cold-mix asphalt,1,1,1
+Surface deformation,Shoving,3,High,Patching,h,Hot-mix asphalt,1,1,1
+Surface deformation,Shoving,3,High,Patching,i,Spray injection,5,5,5
+Surface deformation,Shoving,3,High,Patching,j,Slurry or microsurfacing,3,5,4
+Surface deformation,Shoving,3,High,Sealing,n,Microsurfacing,5,8,6.5
+Surface deformation,Shoving,3,High,Overlay,o,Thin hot-mix overlay,5,8,6.5
+Surface deformation,Shoving,3,High,Overlay,p,"Hot in-place recycling, thin overlay",6,10,8
+Surface deformation,Shoving,3,High,Overlay,q,"Cold in-place recycling, thin overlay",6,15,10.5
+Surface defects,Surface irregularities,1,Low,Joint repair,ca,Bump cutting,unknown,unknown,unknown
+Surface defects,Surface irregularities,1,Low,Filling,cb,Thin bonded repair,10,15,12.5
+Surface defects,Surface irregularities,2,Medium,Filling,cb,Thin bonded repair,10,15,12.5
+Surface defects,Surface irregularities,3,High,Filling,f,Full depth repair,15,20,17.5
+Surface defects,Surface irregularities,3,High,Bay repair,cc,Bay replacement,30,50,40
+Disintegration,Surface scaling,1,Low,Other,cd,Retexturing,4,6,5
+Disintegration,Surface scaling,1,Low,Overlay,cf,Overlay on concrete,3,>12,3
+Disintegration,Surface scaling,2,Medium,Filling,cb,Thin bonded repair,10,15,12.5
+Disintegration,Surface scaling,2,Medium,Filling,ce,Shallow repair,3,10,6.5
+Disintegration,Surface scaling,2,Medium,Overlay,cf,Overlay on concrete,3,>12,3
+Disintegration,Surface scaling,3,High,Filling,f,Full depth repair,15,20,17.5
+Disintegration,Surface scaling,3,High,Bay repair,cc,Bay replacement,30,50,40
+Disintegration,Surface scaling,3,High,Overlay,cf,Overlay on concrete,3,>12,3
+Disintegration,Surface scaling,3,High,Reconstruction,cg,Pavement reconstruction,20,50,35
+Cracking,Crazing,1,Low,Other,cd,Retexturing,4,6,5
+Cracking,Crazing,2,Medium,Other,cd,Retexturing,4,6,5
+Cracking,Crazing,2,Medium,Filling,cb,Thin bonded repair,10,15,12.5
+Cracking,Crazing,2,Medium,Filling,ce,Shallow repair,3,10,6.5
+Cracking,Crazing,3,High,Reconstruction,cg,Pavement reconstruction,20,50,35
+Disintegration,Pop-outs,1,Low,Filling,ch,Single particle repair,1,>12,1
+Disintegration,Pop-outs,2,Medium,Filling,cb,Thin bonded repair,10,15,12.5
+Disintegration,Pop-outs,3,High,Filling,ce,Shallow repair,3,10,6.5
+Joint defects,Defective joint seals,2,Medium,Joint repair,ci,Joint seal replacement,6,15,10.5
+Joint defects,Defective joint seals,3,High,Joint repair,ci,Joint seal replacement,6,15,10.5
+Joint defects,Defective joint seals,3,High,Bay repair,cc,Bay replacement,30,50,40
+Joint defects,Defective joint seals,3,High,Bay repair,cj,Under slab grouting,20,50,35
+Joint defects,Defective joint seals,3,High,Filling,ce,Shallow repair,3,10,6.5
+Joint defects,Shallow joint spalls,1,Low,Joint repair,ck,Joint groove widening,unknown,unknown,unknown
+Joint defects,Shallow joint spalls,2,Medium,Filling,cb,Thin bonded repair,10,15,12.5
+Joint defects,Shallow joint spalls,3,High,Filling,ce,Shallow repair,3,10,6.5
+Displacement,Depressions,1,Low,Multiple strategies,mb,Under slab grouting + Slab lifting + Bump cutting,20,50,35
+Displacement,Depressions,3,High,Multiple strategies,mb,Under slab grouting + Slab lifting + Bump cutting,20,50,35
+Displacement,Depressions,3,High,Bay repair,cc,Bay replacement,30,50,40
+Displacement,Depressions,3,High,Filling,f,Full depth repair,15,20,17.5
+Displacement,Depressions,3,High,Multiple strategies,ma,Drainage renewal,5,20,12.5
+Displacement,Depressions,3,High,Reconstruction,cg,Pavement reconstruction,20,50,35
+Displacement,Heave,1,Low,Joint repair,ca,Bump cutting,unknown,unknown,unknown
+Displacement,Heave,2,Medium,Joint repair,ca,Bump cutting,unknown,unknown,unknown
+Displacement,Heave,2,Medium,Multiple strategies,mc,Foundation improvement + Bay replacement,20,50,35
+Displacement,Heave,2,Medium,Multiple strategies,me,Foundation replacement + Bay replacement,20,50,35
+Displacement,Heave,2,Medium,Multiple strategies,md,Foundation improvement + Full depth repair,15,20,17.5
+Displacement,Heave,2,Medium,Multiple strategies,mf,Foundation replacement + Full depth repair,15,20,17.5
+Displacement,Heave,3,High,Reconstruction,cg,Pavement reconstruction,20,50,35
+Disintegration,Punchouts,1,Low,Filling,f,Full depth repair,15,20,17.5
+Disintegration,Punchouts,1,Low,Bay repair,cc,Bay replacement,30,50,40
+Disintegration,Punchouts,3,High,Filling,f,Full depth repair,15,20,17.5
+Disintegration,Punchouts,3,High,Bay repair,cc,Bay replacement,30,50,40
+Disintegration,Punchouts,3,High,Foundation repair,cl,Foundation replacement,20,50,35
+Disintegration,Punchouts,3,High,Reconstruction,cg,Pavement reconstruction,20,50,35
+Joint defects,Deep joint spalls,3,High,Filling,f,Full depth repair,15,20,17.5
+Joint defects,Deep joint spalls,3,High,Bay repair,cc,Bay replacement,30,50,40
+Cracking,Corner cracks,1,Low,Filling,cm,Inlaid crack repair,3,5,4
+Cracking,Corner cracks,3,High,Filling,f,Full depth repair,15,20,17.5
+Cracking,Corner cracks,3,High,Bay repair,cc,Bay replacement,30,50,40
+Cracking,Cracks around ironworks,1,Low,Filling,cm,Inlaid crack repair,3,5,4
+Cracking,Cracks around ironworks,3,High,Multiple strategies,mg,Full depth repair + Ironwork reinstatement,15,20,17.5
+Cracking,Cracks around ironworks,3,High,Multiple strategies,mi,Bay replacement + Ironwork reinstatement,20,50,35
+Cracking,Cracks around ironworks,3,High,Multiple strategies,mh,Full depth repair + Ironwork relocation,15,20,17.5
+Cracking,Cracks around ironworks,3,High,Multiple strategies,mj,Bay replacement + Ironwork relocation,20,50,35
+Cracking,Diagonal cracks,1,Low,Filling,cm,Inlaid crack repair,3,5,4
+Cracking,Diagonal cracks,3,High,Filling,f,Full depth repair,15,20,17.5
+Cracking,Diagonal cracks,3,High,Multiple strategies,mf,Foundation replacement + Full depth repair,15,20,17.5
+Cracking,Diagonal cracks,3,High,Bay repair,cc,Bay replacement,30,50,40
+Cracking,Diagonal cracks,3,High,Multiple strategies,me,Foundation replacement + Bay replacement,20,50,35
+Cracking,Transverse cracks (Concrete),1,Low,Filling,cm,Inlaid crack repair,3,5,4
+Cracking,Transverse cracks (Concrete),3,High,Filling,f,Full depth repair,15,20,17.5
+Cracking,Transverse cracks (Concrete),3,High,Multiple strategies,mf,Foundation replacement + Full depth repair,15,20,17.5
+Cracking,Transverse cracks (Concrete),3,High,Bay repair,cc,Bay replacement,30,50,40
+Cracking,Transverse cracks (Concrete),3,High,Multiple strategies,me,Foundation replacement + Bay replacement,20,50,35
+Cracking,Longitudinal cracks (Concrete),1,Low,Filling,cm,Inlaid crack repair,3,5,4
+Cracking,Longitudinal cracks (Concrete),1,Low,Other,cp,Crack stitching,10,50,30
+Cracking,Longitudinal cracks (Concrete),2,Medium,Other,cp,Crack stitching,10,50,30
+Cracking,Longitudinal cracks (Concrete),3,High,Filling,f,Full depth repair,15,20,17.5
+Cracking,Longitudinal cracks (Concrete),3,High,Multiple strategies,mf,Foundation replacement + Full depth repair,15,20,17.5
+Cracking,Longitudinal cracks (Concrete),3,High,Bay repair,cc,Bay replacement,30,50,40
+Cracking,Longitudinal cracks (Concrete),3,High,Multiple strategies,me,Foundation replacement + Bay replacement,20,50,35
+Displacement,Stepping,2,Medium,Multiple strategies,mb,Under slab grouting + Slab lifting + Bump cutting,20,50,35
+Displacement,Stepping,2,Medium,Multiple strategies,mk,Drainage renewal + Bay replacement,20,50,35
+Displacement,Stepping,2,Medium,Multiple strategies,ml,Drainage renewal + Full depth repair,15,20,17.5
+Displacement,Stepping,3,High,Multiple strategies,mk,Drainage renewal + Bay replacement,20,50,35
+Displacement,Stepping,3,High,Multiple strategies,ml,Drainage renewal + Full depth repair,15,20,17.5
+Displacement,Stepping,3,High,Multiple strategies,mn,Drainage renewal + Foundation replacement + Bay replacement,20,50,35
+Displacement,Stepping,3,High,Multiple strategies,mo,Drainage renewal + Foundation replacement + Full depth repair,15,20,17.5
+Displacement,Slab rocking,2,Medium,Bay repair,cj,Under slab grouting,20,50,35
+Displacement,Slab rocking,2,Medium,Multiple strategies,mk,Drainage renewal + Bay replacement,20,50,35
+Displacement,Slab rocking,3,High,Multiple strategies,mk,Drainage renewal + Bay replacement,20,50,35
+Displacement,Slab rocking,3,High,Multiple strategies,mn,Drainage renewal + Foundation replacement + Bay replacement,20,50,35
+Displacement,Slab rocking,3,High,Multiple strategies,mo,Drainage renewal + Foundation replacement + Full depth repair,15,20,17.5
+Displacement,Compression failures,3,High,Filling,f,Full depth repair,15,20,17.5
+Displacement,Compression failures,3,High,Bay repair,cc,Bay replacement,30,50,40
+Displacement,Compression failures,3,High,Multiple strategies,mf,Foundation replacement + Full depth repair,15,20,17.5
+Displacement,Compression failures,3,High,Multiple strategies,me,Foundation replacement + Bay replacement,20,50,35

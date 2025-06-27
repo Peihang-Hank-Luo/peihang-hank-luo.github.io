@@ -1,0 +1,75 @@
+ID,Cause,Cause category,TeatmentID,Treatment
+1,Frost heave,Weather & Environment,t105,Timing of maintenance
+2,Hot weather,Weather & Environment,t105,Timing of maintenance
+103,Ground condition,Weather & Environment,t104,Regular inspection and maintenance
+112,Vegetation,Weather & Environment,t101,Isolation
+112,Vegetation,Weather & Environment,t103,Regular cleaning
+115,General weather,Weather & Environment,t105,Timing of maintenance
+116,Air,Weather & Environment,t102,Preventative maintenance
+3,Weak asphalt mixes,Design Mix,t2,Avoid similar mistakes
+4,Lack of asphalt,Design Mix,t2,Avoid similar mistakes
+5,Mix too high in asphalt,Design Mix,t2,Avoid similar mistakes
+6,"Base failure due to poor quality materials, lack of strength, or insufficient granularity",Design Mix,t2,Avoid similar mistakes
+7,High fine aggregate content,Design Mix,t2,Avoid similar mistakes
+8,Low air voids,Design Mix,t2,Avoid similar mistakes
+9,Heavy prime or tack coat,Design Mix,t2,Avoid similar mistakes
+10,Fine aggregate mix with low penetration asphalt and absorptive aggregates,Design Mix,t2,Avoid similar mistakes
+11,Inadequate design of layers thickness,Design Mix,t2,Avoid similar mistakes
+12,Improper or inferior materials,Design Mix,t2,Avoid similar mistakes
+105,Material degradation,Design Mix,t2,Avoid similar mistakes
+13,Insufficient base structure,Construction,t2,Avoid similar mistakes
+14,Improper compaction,Construction,t2,Avoid similar mistakes
+15,Rounded or smooth aggregate,Construction,t2,Avoid similar mistakes
+16,Inadequately applied seal coat,Construction,t2,Avoid similar mistakes
+107,General poor construction,Construction,t2,Avoid similar mistakes
+108,General poor asset design,Construction,t2,Avoid similar mistakes
+109,General poor installation,Construction,t2,Avoid similar mistakes
+17,Load induced by heavy traffic,Traffic,t3,HGV-dedicated lanes
+17,Load induced by heavy traffic,Traffic,t4,Improve traffic allocation
+18,Low traffic volume,Traffic,t4,Improve traffic allocation
+19,Heavy loaded vehicles speeding up or slowing down,Traffic,t5,Speed change measures
+102,Debris and detritus,Highway Operation,t103,Regular cleaning
+104,Human damage,Highway Operation,t103,Regular cleaning
+104,Human damage,Highway Operation,t104,Regular inspection and maintenance
+110,Poor maintenance,Highway Operation,t2,Avoid similar mistakes
+111,Poor operation,Highway Operation,t2,Avoid similar mistakes
+113,Vehicle damage,Highway Operation,t102,Preventative maintenance
+114,Wear and tear,Highway Operation,t102,Preventative maintenance
+114,Wear and tear,Highway Operation,t104,Regular inspection and maintenance
+114,Wear and tear,Highway Operation,t204,Higher quality and/or corrosion-resistant materials
+20,Poor drainage - excess moisture,Moisture,t6,Check drainage
+21,Excessive moisture on the basis,Moisture,t6,Check drainage
+106,General moisture,Moisture,t6,Check drainage
+22,Continued deterioration of another defect type,Secondary,t7,Fix surrounding defects
+101,Chemical reaction,Chemical,t105,Timing of maintenance
+201,Vehicle fires and spillages,Chemical,t202,Traffic accident mitigation
+201,Vehicle fires and spillages,Chemical,t203,Fuel-resistant sealants
+202,Alkali-silica reaction ,Chemical,t201,Redesign mixture
+203,Improper finishing and curing,Construction,t2,Avoid similar mistakes
+205,Poor slab support,Construction,t2,Avoid similar mistakes
+206,"Inadequate thickness, concrete strength, or steel reinforcement",Construction,t2,Avoid similar mistakes
+207,Dowel bar issues,Construction,t2,Avoid similar mistakes
+207,Dowel bar issues,Construction,t204,Higher quality and/or corrosion-resistant materials
+208,Tie bar issues,Construction,t2,Avoid similar mistakes
+208,Tie bar issues,Construction,t204,Higher quality and/or corrosion-resistant materials
+209,Acute angles,Construction,t2,Avoid similar mistakes
+210,Lack of isolation around ironwork,Construction,t2,Avoid similar mistakes
+211,Slab dimensions,Construction,t2,Avoid similar mistakes
+212,Lack of bond between upper and lower layers of concrete,Construction,t2,Avoid similar mistakes
+213,Inadequate cement content,Design Mix,t2,Avoid similar mistakes
+214,Excessive laitance,Design Mix,t2,Avoid similar mistakes
+215,Reinforcement too high in concrete,Design Mix,t2,Avoid similar mistakes
+216,Sealant age,Highway Operation,t104,Regular inspection and maintenance
+217,End of pavement life,Highway Operation,t104,Regular inspection and maintenance
+219,Water penetration,Moisture,t6,Check drainage
+220,Corroded reinforcement,Moisture,t6,Check drainage
+221,Local causes,Other,t102,Preventative maintenance
+222,Locked up joints,Construction,t2,Avoid similar mistakes
+223,Misalignment between top and bottom crack inducers,Construction,t2,Avoid similar mistakes
+224,Traffic loading,Traffic,t4,Improve traffic allocation
+225,Weather damage during construction,Weather & Environment,t105,Timing of maintenance
+226,Embedded foreign materials,Weather & Environment,t105,Timing of maintenance
+227,Environmental loading,Weather & Environment,t105,Timing of maintenance
+228,Geotechnical factors,Weather & Environment,t105,Timing of maintenance
+229,Expansive or treated soils,Weather & Environment,t105,Timing of maintenance
+230,Freeze-thaw,Weather & Environment,t105,Timing of maintenance
