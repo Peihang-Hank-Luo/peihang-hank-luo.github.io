@@ -160,20 +160,7 @@ async function loadAllData(basePath = '../assets/csv/') {
         if (d>-1 && c>-1) fullMatrix[d][c] = 1;
     });
 
-    const defectsByMaterial = {};
-    materials.forEach(mat => {
-        const set = new Set();
-        groups.forEach(g => {
-            severities.forEach(sev => {
-                fullTotalMatrix[mat][g][sev].forEach((arr, di) => {
-                    if (arr.some(v => v !== 0)) set.add(symptoms[di]);
-                });
-            });
-        });
-        defectsByMaterial[mat] = Array.from(set);
-    });
-
-    return { data:{ symptoms, causes, causeStrategyGroups, repairStrategies, repairStrategyGroups, timeSync: lifeMean }, fullMatrix, fullTotalMatrix, costMatrix, costMatrixNamed, costRank, lifeMean, lifeRange, defectsByMaterial };
+    return { data:{ symptoms, causes, causeStrategyGroups, repairStrategies, repairStrategyGroups, timeSync: lifeMean }, fullMatrix, fullTotalMatrix, costMatrix, costMatrixNamed, costRank, lifeMean, lifeRange };
 }
 
 if (typeof window !== 'undefined') {
