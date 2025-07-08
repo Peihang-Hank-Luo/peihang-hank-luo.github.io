@@ -268,7 +268,14 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     function getRepairVector(material, symptomIndex, severity, quantity) {
-        const threshold = parseFloat(document.getElementById("road-length-input").value) / 2;
+        let roadLen = parseFloat(document.getElementById("road-length-input").value);
+
+        if (isNaN(roadLen) || roadLen <= 0) {
+            alert("Invalid road length. Using default of 100 meters.");
+            roadLen = 100;
+        }
+
+        const threshold = roadLen / 2;
         const mode = (quantity >= threshold) ? "Group" : "Individual";
         const matrix = fullTotalMatrix[material][mode][severity];
         return matrix[symptomIndex];  // returns an array of repair-weights
