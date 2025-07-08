@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const costMatrixNamed = loaded.costMatrixNamed; // descriptive strings
     const costRank = loaded.costRank;           // 1=low 2=medium 3=high
     const lifeMean = loaded.lifeMean;
+    const lifeRange = loaded.lifeRange;
+    const defectsByMaterial = loaded.defectsByMaterial;
 
     // Map of road asset to the defects belonging to that asset. The
     // defect names must exactly match those loaded from the CSV files
@@ -215,14 +217,18 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     function filterSymptomButtons(allowedList) {
+        const material = getSelectedMaterial();
+        const valid = new Set(defectsByMaterial[material] || []);
         document.querySelectorAll(".symptom-button").forEach(btn => {
-          btn.style.display = allowedList.includes(btn.textContent)
-            ? "inline-block"
-            : "none";
+          const name = btn.textContent;
+          const show = allowedList.includes(name) && valid.has(name);
+          btn.style.display = show ? "inline-block" : "none";
         });
     }
 
     // ————— Hook up the SVG click-zones —————
+    let currentRegion = null;
+    let currentList = [];
     document
     .querySelectorAll("#road-selector svg g[id]")
     .forEach(regionEl => {
@@ -230,6 +236,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         regionEl.addEventListener("click", () => {
         const region   = regionEl.id;    // "markings", "gullies", etc.
         const list     = regionToSymptoms[region] || [];
+        currentRegion  = region;
+        currentList    = list;
 
         // 1) Clear any previously selected symptom chips
         // selectedSymptoms.innerHTML = "";
@@ -247,6 +255,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         filterSymptomButtons(list);
         });
     });
+
+    document.querySelectorAll('input[name="road-material"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            filterSymptomButtons(currentList);
+        });
+    });
+
+    const step2Btn = document.getElementById('to-step-2');
+    if (step2Btn) {
+        step2Btn.addEventListener('click', () => {
+            filterSymptomButtons(currentList);
+        });
+    }
 
     function getSelectedMaterial() {
         const mat = document.querySelector('input[name="road-material"]:checked');
@@ -348,6 +369,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         const lifeVals = topRepIdx.map(i=> lifeMean[i]);
         const maxLife  = Math.max(...lifeVals);
         topRepIdx = topRepIdx.filter(i=> lifeMean[i] === maxLife);
+
+        // then smallest lifespan range
+        const rangeVals = topRepIdx.map(i=> Math.abs(lifeRange[i]));
+        const minRange  = Math.min(...rangeVals);
+        topRepIdx = topRepIdx.filter(i=> Math.abs(lifeRange[i]) === minRange);
       
         return { topCauseIndices, topRepIdx };
     }
@@ -597,6 +623,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             Percentage: pct + '%',
             'Rel. Certainty': analysis.repairRel[i],
             Lifespan: data.timeSync[i] + ' yrs',
+            'Lifespan Range': lifeRange[i] + ' yrs',
             Cost: costMatrixNamed[i]
         }))
         .sort((a,b) => parseInt(b.Percentage) - parseInt(a.Percentage));
@@ -625,6 +652,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     { key:'Percentage',    label:'Percentage' },
                     { key:'Rel. Certainty',label:'Relative Certainty' },
                     { key:'Lifespan',      label:'Lifespan' },
+                    { key:'Lifespan Range',label:'Lifespan Range' },
                     { key:'Cost',          label:'Cost' },
                     ]);
 

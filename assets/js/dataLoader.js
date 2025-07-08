@@ -64,7 +64,10 @@ async function loadAllData(basePath = '../assets/csv/') {
     const repairStrategies = repairStrats.map(r => r.Name);
     const repairStrategyGroups = repairStrats.map(r => r.Category);
     const costMatrixNamed = repairStrats.map(r => r.Cost);
-    const lifeMean = repairStrats.map(r => parseFloat(r.LifetimeMean) || 0);
+    const lifeMean  = repairStrats.map(r => parseFloat(r.LifetimeMean) || 0);
+    const lifeMin   = repairStrats.map(r => parseFloat(r.LifetimeMinYears) || 0);
+    const lifeMax   = repairStrats.map(r => parseFloat(r.LifetimeMaxYears) || 0);
+    const lifeRange = lifeMax.map((max,i)=> Math.abs(max - lifeMin[i]));
 
     function costWeight(c) {
         const lc = (c || '').toLowerCase();
@@ -157,7 +160,20 @@ async function loadAllData(basePath = '../assets/csv/') {
         if (d>-1 && c>-1) fullMatrix[d][c] = 1;
     });
 
-    return { data:{ symptoms, causes, causeStrategyGroups, repairStrategies, repairStrategyGroups, timeSync: lifeMean }, fullMatrix, fullTotalMatrix, costMatrix, costMatrixNamed, costRank, lifeMean };
+    const defectsByMaterial = {};
+    materials.forEach(mat => {
+        const set = new Set();
+        groups.forEach(g => {
+            severities.forEach(sev => {
+                fullTotalMatrix[mat][g][sev].forEach((arr, di) => {
+                    if (arr.some(v => v !== 0)) set.add(symptoms[di]);
+                });
+            });
+        });
+        defectsByMaterial[mat] = Array.from(set);
+    });
+
+    return { data:{ symptoms, causes, causeStrategyGroups, repairStrategies, repairStrategyGroups, timeSync: lifeMean }, fullMatrix, fullTotalMatrix, costMatrix, costMatrixNamed, costRank, lifeMean, lifeRange, defectsByMaterial };
 }
 
 if (typeof window !== 'undefined') {
