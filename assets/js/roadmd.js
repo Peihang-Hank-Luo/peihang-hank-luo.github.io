@@ -284,22 +284,32 @@ document.addEventListener("DOMContentLoaded", async function () {
     function analyze(selected, material) {
         const causeScores  = Array(data.causes.length).fill(0);
         const repairScores = Array(data.repairStrategies.length).fill(0);
-        let defectCount = 0;
+
+        // FinalTotalCheck analogue – number of unique defects recorded
+        const seenDefects = new Set();
+        // CheckCount analogue – total number of defect/severity entries
+        let entryCount = 0;
 
         selected.forEach(({ symptomIndex, severity, quantity }) => {
-          defectCount++;
-          // 1) accumulate causes
-          fullMatrix[symptomIndex]
-            .forEach((w, ci) => causeScores[ci] += w);
+          entryCount++;
 
-          // 2) accumulate repairs
+          // 1) accumulate causes only once per unique defect
+          if (!seenDefects.has(symptomIndex)) {
+            seenDefects.add(symptomIndex);
+            fullMatrix[symptomIndex]
+              .forEach((w, ci) => causeScores[ci] += w);
+          }
+
+          // 2) accumulate repairs for every entry
           const repVec = getRepairVector(material, symptomIndex, severity, quantity);
           repVec.forEach((w, ri) => repairScores[ri] += w);
         });
-      
+
+        const defectCount = seenDefects.size;  // unique defect count
+
         // percentages
         const causePct  = causeScores.map(s => defectCount ? Math.round(100 * s/defectCount) : 0);
-        const repairPct = repairScores.map(s => defectCount ? Math.round(100 * s/defectCount) : 0);
+        const repairPct = repairScores.map(s => entryCount ? Math.round(100 * s/entryCount) : 0);
       
         // relative certainties
         const maxCausePct  = Math.max(...causePct);
