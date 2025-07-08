@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     const costRank = loaded.costRank;           // 1=low 2=medium 3=high
     const lifeMean = loaded.lifeMean;
     const lifeRange = loaded.lifeRange;
-    const defectsByMaterial = loaded.defectsByMaterial;
 
     // Map of road asset to the defects belonging to that asset. The
     // defect names must exactly match those loaded from the CSV files
@@ -217,12 +216,11 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     function filterSymptomButtons(allowedList) {
-        const material = getSelectedMaterial();
-        const valid = new Set(defectsByMaterial[material] || []);
         document.querySelectorAll(".symptom-button").forEach(btn => {
           const name = btn.textContent;
-          const show = allowedList.includes(name) && valid.has(name);
-          btn.style.display = show ? "inline-block" : "none";
+          btn.style.display = allowedList.includes(name)
+            ? "inline-block"
+            : "none";
         });
     }
 
@@ -256,11 +254,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     });
 
-    document.querySelectorAll('input[name="road-material"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-            filterSymptomButtons(currentList);
-        });
-    });
 
     const step2Btn = document.getElementById('to-step-2');
     if (step2Btn) {
