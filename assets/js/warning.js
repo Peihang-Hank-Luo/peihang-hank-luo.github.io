@@ -8,16 +8,10 @@ function showWarning(msg) {
   modal.style.display = 'flex';
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('click', function (e) {
   const modal = document.getElementById('warning-modal');
   if (!modal) return;
-  const closeBtn = document.getElementById('warning-close');
-  closeBtn.addEventListener('click', function () {
+  if (e.target.id === 'warning-close' || e.target === modal) {
     modal.style.display = 'none';
-  });
-  modal.addEventListener('click', function (e) {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
+  }
 });
