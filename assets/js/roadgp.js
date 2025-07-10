@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         let roadLen = parseFloat(document.getElementById("road-length-input").value);
 
         if (isNaN(roadLen) || roadLen <= 0) {
-            alert("Invalid road length. Using default of 100 meters.");
+            showWarning("Invalid road length. Using default of 100 meters.");
             roadLen = 100;
         }
 
