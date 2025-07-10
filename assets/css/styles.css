@@ -69,6 +69,10 @@ footer {
     border-radius: 5px;
     text-align: center;
 }
+.warning-modal h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
 .warning-modal button {
     margin-top: 10px;
 }
