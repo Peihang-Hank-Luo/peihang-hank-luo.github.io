@@ -56,10 +56,60 @@ async function loadAllData(basePath = '../assets/csv/') {
     ]);
 
     const symptoms = unique(defectRepair.map(r => r.Defect));
-    const causes = unique(defectCause.map(r => r['Cause Name']));
-    const causeCategoryMap = {};
-    causeTreatment.forEach(r => { causeCategoryMap[r.Cause] = r['Cause category']; });
-    const causeStrategyGroups = causes.map(c => causeCategoryMap[c] || '');
+
+    // Build the canonical cause universe from CauseTreatment by CauseID
+    const causeRows = [];
+    const seenCause = new Set();
+    for (const r of causeTreatment) {
+    const id = Number(r.CauseID);
+    if (!Number.isFinite(id)) continue;
+    if (seenCause.has(id)) continue;
+    seenCause.add(id);
+    causeRows.push({
+        id,
+        name: r.Cause,
+        group: r['Cause category']
+    });
+    }
+    const UniqueCauseID     = causeRows.map(r => r.id);
+    const UniqueCause       = causeRows.map(r => r.name);
+    const UniqueCauseStrat  = causeRows.map(r => r.group);
+    const causeIndexByID    = new Map(UniqueCauseID.map((id,i)=>[id,i]));
+
+    // CauseAmount (D x C) using CauseID
+    const nSymptoms = symptoms.length;
+    const CauseAmount = Array.from({length: nSymptoms}, () => new Array(UniqueCauseID.length).fill(0));
+
+    defectCause.forEach(r => {
+    const d = symptoms.indexOf(r.Defect);
+    const cIdx = causeIndexByID.get(Number(r['Cause ID'])); // CSV must have a cause ID column
+    if (d > -1 && cIdx != null) CauseAmount[d][cIdx] = 1;
+    });
+
+    // Keep `fullMatrix` for back-compat if other code expects it (maps symptom->cause by *this* canonical order):
+    const fullMatrix = CauseAmount;
+
+    // TreatmentAmount (T x C) from CauseTreatment
+    const treatmentRows = [];
+    const seenTreat = new Set();
+    for (const r of causeTreatment) {
+    const tID = String(r.TreatmentID);     // stable ID
+    if (!tID) continue;
+    if (seenTreat.has(tID)) continue;
+    seenTreat.add(tID);
+    treatmentRows.push({ id: tID, name: r.Treatment });
+    }
+    const UniqueTreatmentID   = treatmentRows.map(r => r.id);
+    const UniqueTreatment     = treatmentRows.map(r => r.name);
+    const treatmentIndexByID  = new Map(UniqueTreatmentID.map((id,i)=>[id,i]));
+
+    const TreatmentAmount = Array.from({length: UniqueTreatmentID.length}, () => new Array(UniqueCauseID.length).fill(0));
+
+    causeTreatment.forEach(r => {
+    const cIdx = causeIndexByID.get(Number(r.CauseID));
+    const tIdx = treatmentIndexByID.get(String(r.TreatmentID));
+    if (cIdx != null && tIdx != null) TreatmentAmount[tIdx][cIdx] = 1;
+    });
 
     const repairStrategies = [];
     const repairStrategyGroups = [];
@@ -116,9 +166,8 @@ async function loadAllData(basePath = '../assets/csv/') {
     const severityIndex = { 'Very Low':0,'Low':1,'Medium':2,'High':3,'Unknown':4 };
     const severities = Object.keys(severityIndex);
     const materials = ['asphalt','concrete'];
-    const groups = ['Individual','Group'];
+    const groups = ['Individual','Widespread'];
 
-    const nSymptoms = symptoms.length;
     const nRepairs = repairStrategies.length;
 
     const repairMaterialMask = Array.from({length:nRepairs},()=>[0,0]);
@@ -137,10 +186,10 @@ async function loadAllData(basePath = '../assets/csv/') {
             repairGroupMask[idx][0].fill(1,0,4);
             repairGroupMask[idx][1].fill(1,0,4);
         }
-        if (gv.includes('individual')) {
+        if (gv.includes('Individual')) {
             repairGroupMask[idx][0].fill(1,0,4);
         }
-        if (gv.includes('widespread')) {
+        if (gv.includes('Widespread')) {
             if (gv.includes('very low')) repairGroupMask[idx][1][0] = 1;
             else if (gv.includes('low')) repairGroupMask[idx][1][1] = 1;
             else if (gv.includes('medium')) repairGroupMask[idx][1][2] = 1;
@@ -158,12 +207,14 @@ async function loadAllData(basePath = '../assets/csv/') {
     const repairDefectMask = Array.from({length:5},()=>Array.from({length:nSymptoms},()=>Array(nRepairs).fill(0)));
     defectRepair.forEach(row => {
         const d = symptoms.indexOf(row.Defect);
-        const sIdx = parseInt(row.Severity,10)+1;
+        const sIdx = Number(row.Severity); // 0..3 in CSV (Very Low..High)
         const rInfo = repairById[row.RepairStrat];
-        if (d===-1 || !rInfo) return;
+        if (d === -1 || !rInfo || Number.isNaN(sIdx) || sIdx < 0 || sIdx > 3) return;
+
         const ridx = repairNameToIndex[rInfo.Name];
-        if (ridx===undefined) return;
-        if (repairDefectMask[sIdx-1]) repairDefectMask[sIdx-1][d][ridx] = 1;
+        if (ridx === undefined) return;
+
+        repairDefectMask[sIdx][d][ridx] = 1;
     });
 
     for (let d=0; d<nSymptoms; d++) {
@@ -191,7 +242,111 @@ async function loadAllData(basePath = '../assets/csv/') {
         });
     });
 
-    const fullMatrix = Array.from({length:nSymptoms},()=>Array(causes.length).fill(0));
+    // Build 5D DefectAmount, CostDefectAmount, CostLifeDefectAmount
+    // Dimensions: [material:2][group:2][severity:5][symptom:nSymptoms][repair:nRepairs]
+
+    function make5D(fillVal=0) {
+    return Array.from({length:2}, () => // material
+        Array.from({length:2}, () =>     // group (Individual/Widespread)
+        Array.from({length:5}, () =>   // severity (Very Low..High, Unknown)
+            Array.from({length:nSymptoms}, () => Array(nRepairs).fill(fillVal))
+        )
+        )
+    );
+    }
+
+    // Base presence by group/severity (independent of symptom and material)
+    const DefectAmount       = make5D(0);
+    const CostDefectAmount   = make5D(0);
+    const CostLifeDefectAmount = make5D(0);
+
+    for (let r = 0; r < nRepairs; r++) {
+    for (let g = 0; g < 2; g++) {
+        for (let s = 0; s < 5; s++) {
+        const present = repairGroupMask[r][g][s] ? 1 : 0; // 0/1
+        if (!present) continue;
+
+        const costW  = costMatrix[r];      // 0.6, 0.3, 0.1, ...
+        const lifeMn = lifeMean[r];        // years or -100
+
+        // Repeat across both materials, and across ALL symptoms
+        for (let m = 0; m < 2; m++) {
+            for (let d = 0; d < nSymptoms; d++) {
+            DefectAmount[m][g][s][d][r]       = 1;
+            CostDefectAmount[m][g][s][d][r]   = 1 * costW;
+            CostLifeDefectAmount[m][g][s][d][r] = 1 * costW * lifeMn;
+            }
+        }
+        }
+    }
+    }
+
+    // Blend the Unknown (index 4) severity as weighted combination of 0..3
+    const blend = [0.05, 0.10, 0.30, 0.55];
+    for (let m = 0; m < 2; m++) {
+    for (let g = 0; g < 2; g++) {
+        for (let d = 0; d < nSymptoms; d++) {
+        for (let r = 0; r < nRepairs; r++) {
+            let v = 0, vc = 0, vcl = 0;
+            for (let s = 0; s < 4; s++) {
+            v   += blend[s] * DefectAmount[m][g][s][d][r];
+            vc  += blend[s] * CostDefectAmount[m][g][s][d][r];
+            vcl += blend[s] * CostLifeDefectAmount[m][g][s][d][r];
+            }
+            DefectAmount[m][g][4][d][r]        = v;
+            CostDefectAmount[m][g][4][d][r]    = vc;
+            CostLifeDefectAmount[m][g][4][d][r]= vcl;
+        }
+        }
+    }
+    }
+
+    // MaterialCheck: expand your per-repair material mask across group/severity/symptom
+    const MaterialCheck = make5D(0);
+    for (let r = 0; r < nRepairs; r++) {
+    for (let m = 0; m < 2; m++) {
+        if (!repairMaterialMask[r][m]) continue;
+        for (let g = 0; g < 2; g++) {
+        for (let s = 0; s < 5; s++) {
+            for (let d = 0; d < nSymptoms; d++) {
+            MaterialCheck[m][g][s][d][r] = 1;
+            }
+        }
+        }
+    }
+    }
+
+    // RepairMatrix: expand your repairDefectMask into 5D (no material/group gating here)
+    const RepairMatrix = make5D(0);
+    for (let s = 0; s < 5; s++) {
+    for (let d = 0; d < nSymptoms; d++) {
+        for (let r = 0; r < nRepairs; r++) {
+        if (!repairDefectMask[s][d][r]) continue;
+        for (let m = 0; m < 2; m++) {
+            for (let g = 0; g < 2; g++) {
+            RepairMatrix[m][g][s][d][r] = 1;
+            }
+        }
+        }
+    }
+    }
+
+    // Final gated matrices (elementwise product). These mirror MATLAB’s TestTemp.*RepairMatrix.
+    function mul5D(A,B) {
+    const out = make5D(0);
+    for (let m = 0; m < 2; m++)
+        for (let g = 0; g < 2; g++)
+        for (let s = 0; s < 5; s++)
+            for (let d = 0; d < nSymptoms; d++)
+            for (let r = 0; r < nRepairs; r++)
+                out[m][g][s][d][r] = A[m][g][s][d][r] * B[m][g][s][d][r];
+    return out;
+    }
+
+    const FullRepairMatrix         = mul5D(mul5D(MaterialCheck, DefectAmount),       RepairMatrix);
+    const FullRepairMatrixCost     = mul5D(mul5D(MaterialCheck, CostDefectAmount),   RepairMatrix);
+    const FullRepairMatrixCostLife = mul5D(mul5D(MaterialCheck, CostLifeDefectAmount), RepairMatrix);
+
     defectCause.forEach(r => {
         const d = symptoms.indexOf(r.Defect);
         const c = causes.indexOf(r['Cause Name']);
@@ -199,14 +354,32 @@ async function loadAllData(basePath = '../assets/csv/') {
     });
 
     return {
-        data:{ symptoms, causes, causeStrategyGroups, repairStrategies, repairStrategyGroups, timeSync: lifeMean },
-        fullMatrix,
-        fullTotalMatrix,
-        costMatrix,
-        costMatrixNamed,
-        costRank,
-        lifeMean,
-        lifeRange
+        data: {
+            symptoms,
+            // Causes/treatments
+            UniqueCause, UniqueCauseStrat, UniqueCauseID,
+            UniqueTreatment, UniqueTreatmentID,
+            // Repairs
+            repairStrategies,
+            repairStrategyGroups,
+            timeSync: lifeMean
+        },
+        // Defect→Cause
+        fullMatrix: CauseAmount,   // keep legacy name if other code relies on it
+        CauseAmount,
+        TreatmentAmount,
+
+        // Final 5D tensors
+        FullRepairMatrix,
+        FullRepairMatrixCost,
+        FullRepairMatrixCostLife,
+
+        // If you still want your older object-of-2D-matrices, you can optionally keep it:
+        // fullTotalMatrix,
+
+        // Scalars/vectors
+        costMatrix, costMatrixNamed, costRank,
+        lifeMean, lifeRange
     };
 }
 

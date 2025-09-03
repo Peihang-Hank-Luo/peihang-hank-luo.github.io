@@ -90,61 +90,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     });
 
     // Add symptom function
-    // function addSymptom(symptom) {
-    //     if (![...selectedSymptoms.children].some(el => el.textContent === symptom)) {
-    //         let container = document.createElement("div");
-    //         container.className = "symptom-container";
-    //         container.dataset.symptom = symptom;
-
-    //         let chip = document.createElement("span");
-    //         chip.className = "symptom-chip";
-    //         chip.textContent = symptom;
-            
-    //         let severitySelect = document.createElement("select");
-    //         severitySelect.className = "severity-select";
-    //         ["Very Low", "Low", "Medium", "High", "Unknown"].forEach(level => {
-    //             let option = document.createElement("option");
-    //             option.value = level;
-    //             option.textContent = level;
-    //             severitySelect.appendChild(option);
-    //         });
-
-    //         severitySelect.addEventListener("change", ev => {
-    //             const key = symptom + "|" + ev.target.value;
-    //             if (seenEntries.has(key)) {
-    //                 alert("That symptom at this severity is already added.");
-    //                 // roll back to “Unknown” (or whatever you prefer)
-    //                 ev.target.value = "Unknown";
-    //             } else {
-    //                 // remove any prior key for this symptom
-    //                 Array.from(seenEntries)
-    //                 .filter(k => k.startsWith(symptom + "|"))
-    //                 .forEach(k => seenEntries.delete(k));
-    //                 // record the new pair
-    //                 seenEntries.add(key);
-    //             }
-    //         });
-
-    //         // Quantity input field
-    //         let quantityInput = document.createElement("input");
-    //         quantityInput.type = "number";
-    //         quantityInput.className = "quantity-input";
-    //         quantityInput.placeholder = "Quantity";
-    //         quantityInput.min = 1;
-
-    //         let removeButton = document.createElement("button");
-    //         removeButton.className = "remove-button";
-    //         removeButton.textContent = "×";
-    //         removeButton.onclick = () => container.remove();
-            
-    //         container.appendChild(chip);
-    //         container.appendChild(severitySelect);
-    //         container.appendChild(quantityInput);
-    //         container.appendChild(removeButton);
-    //         selectedSymptoms.appendChild(container);
-    //     }
-    // }
-
     function addSymptom(symptom) {
         if ([...selectedSymptoms.children].some(el => el.dataset.symptom === symptom)) return;
     
@@ -156,30 +101,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         const chip = document.createElement("span");
         chip.className = "symptom-chip";
         chip.textContent = symptom;
-    
-        // Create a row of quantity inputs for each severity
-        // ["Very Low", "Low", "Medium", "High", "Unknown"].forEach(level => {
-        //     const row = document.createElement("div");
-        //     row.className = "severity-row";
-    
-        //     const label = document.createElement("label");
-        //     label.textContent = level;
-        //     label.className = "severity-label";
-    
-        //     const input = document.createElement("input");
-        //     input.type = "number";
-        //     input.min = 0;
-        //     input.value = 0;
-        //     input.className = "severity-quantity";
-        //     input.dataset.severity = level;
-        //     input.placeholder = "0";
-    
-        //     row.appendChild(label);
-        //     row.appendChild(input);
-        //     container.appendChild(row);
-        // });
 
-        // NEW: vertical grid of 5 severities
+        // Vertical grid of 5 severities
         const severities = ["Very Low","Low","Medium","High","Unknown"];
         const grid = document.createElement("div");
         grid.className = "severity-grid";
@@ -237,19 +160,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         currentRegion  = region;
         currentList    = list;
 
-        // 1) Clear any previously selected symptom chips
-        // selectedSymptoms.innerHTML = "";
-
-        // 2) Seed the UI with only that region’s defects
-        // list.forEach(sym => addSymptom(sym));
-
-        // 3) Optionally highlight the clicked region
+        // Optionally highlight the clicked region
         document
             .querySelectorAll("#road-selector svg g[id]")
             .forEach(el => el.classList.remove("active"));
         regionEl.classList.add("active");
 
-        // 4) Filter your button grid (if you still have that)
+        // Filter your button grid (if you still have that)
         filterSymptomButtons(list);
         });
     });
@@ -267,18 +184,53 @@ document.addEventListener("DOMContentLoaded", async function () {
         return mat ? mat.value.toLowerCase() : 'asphalt';
     }
 
-    function getRepairVector(material, symptomIndex, severity, quantity) {
-        let roadLen = parseFloat(document.getElementById("road-length-input").value);
+    // function getRepairVector(material, symptomIndex, severity, quantity) {
+    //     let roadLen = parseFloat(document.getElementById("road-length-input").value);
 
+    //     if (isNaN(roadLen) || roadLen <= 0) {
+    //         showWarning("Invalid road length. Using default of 100 meters.");
+    //         roadLen = 100;
+    //     }
+
+    //     const threshold = roadLen / 2;
+    //     const mode = (quantity >= threshold) ? "Widespread" : "Individual";
+    //     const matrix = fullTotalMatrix[material][mode][severity];
+    //     return matrix[symptomIndex];  // returns an array of repair-weights
+    // }
+
+    function getRepairVector(material, symptomIndex, severity, quantity) {
+        const nRepairs = data.repairStrategies.length;
+
+        let roadLen = parseFloat(document.getElementById("road-length-input").value);
         if (isNaN(roadLen) || roadLen <= 0) {
             showWarning("Invalid road length. Using default of 100 meters.");
             roadLen = 100;
         }
 
         const threshold = roadLen / 2;
-        const mode = (quantity >= threshold) ? "Group" : "Individual";
-        const matrix = fullTotalMatrix[material][mode][severity];
-        return matrix[symptomIndex];  // returns an array of repair-weights
+
+        // Preferred new keys first, with fallback to the old keys
+        const want = (quantity >= threshold)
+            ? ["Widespread", "Group"]     // new then old
+            : ["Individual", "Individual"];
+
+        const sevKey = severity;        // e.g. "Very Low", "Low", ..., "Unknown"
+
+        // Safely walk the structure & fall back if a variant isn't present
+        const byMat = fullTotalMatrix[material] || {};
+        let modeKey = want.find(k => byMat[k] && byMat[k][sevKey]);
+        if (!modeKey) {
+            // if severity wasn’t present, try any available severity bucket for that mode
+            modeKey = want.find(k => byMat[k]);
+        }
+        const byMode = (modeKey && byMat[modeKey]) || {};
+        const bySev  = byMode[sevKey];
+
+        if (!bySev) {
+            // No matching matrix → return a zero vector to avoid crashes
+            return Array(nRepairs).fill(0);
+        }
+        return bySev[symptomIndex] || Array(nRepairs).fill(0);
     }
 
     function analyze(selected, material) {
@@ -320,45 +272,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         return { causeScores, causePct, causeRel, repairScores, repairPct, repairRel };
     }
 
-    /**
-     * Take your array of { symptom, severity, quantity } entries,
-     * sum up cause- and repair-scores exactly once per defect,
-     * then divide by the total defect count to get 0–100%.
-     */
-    // function analyze(selectedSymptoms) {
-    //     const nDefects = selectedSymptoms.length;
-    //     const causeScores  = Array(data.causes.length).fill(0);
-    //     const repairScores = Array(data.repairStrategies.length).fill(0);
-    
-    //     selectedSymptoms.forEach(({ symptom, severity, quantity }) => {
-    //         const si = data.symptoms.indexOf(symptom);
-    //         if (si === -1) return;
-        
-    //         // 1) Cause accumulation (Full matrix is 22×38: symptoms→causes)
-    //         fullMatrix[si].forEach((v, ci) => {
-    //             causeScores[ci] += v;
-    //         });
-        
-    //         // 2) Repair accumulation (FullTotal is 22×29 per severity)
-    //         const repaired = getRepairVector(si, severity, quantity);
-    //         repaired.forEach((v, ri) => {
-    //             repairScores[ri] += v;
-    //         });
-    //     });
-
-    //     // 3) Percentages = round(100 * (score / #defects))
-    //     const causePct  = causeScores .map(x => nDefects>0 ? Math.round((x/nDefects)*100) : 0);
-    //     const repairPct = repairScores.map(x => nDefects>0 ? Math.round((x/nDefects)*100) : 0);
-    
-    //     // 4) Relative certainties (0–1 floats)
-    //     const maxCause  = Math.max(...causePct, 1);
-    //     const maxRepair = Math.max(...repairPct, 1);
-    //     const causeRel  = causePct .map(x => Math.round((x/maxCause) * 100) / 100);
-    //     const repairRel = repairPct.map(x => Math.round((x/maxRepair) * 100) / 100);
-    
-    //     return { causeScores, causePct, causeRel, repairScores, repairPct, repairRel };
-    // }
-
     function pickTop(results) {
         // Causes
         let topCauseIndices = results.causePct
@@ -394,46 +307,61 @@ document.addEventListener("DOMContentLoaded", async function () {
      * @returns {string}
      *   a human-readable “traditionally treated by …” phrase
      */
-    function getTraditionalRepair(topCauseIndices) {
-        const used = new Set();
-        const lines = [];
+    // function getTraditionalRepair(topCauseIndices) {
+    //     const used = new Set();
+    //     const lines = [];
     
-        topCauseIndices.forEach(ci => {
-        let strat;
-        // map each cause index into one of your TraditionalStrategies:
-        if (ci < 3) {
-            strat = "No Available Treatment";
-        } else if (ci < 17) {
-            strat = "Avoid Similar Mistakes During Maintenance And Reconstruction";
-        } else if (ci === 17) {
-            strat = "Design Lanes For Different Vehicle Or Improve Traffic Allocation";
-        } else if (ci === 18) {
-            strat = "Improve Traffic Allocation";
-        } else if (ci === 19) {
-            strat = "Implement Speed Reduction Measures";
-        } else if (ci < 22) {
-            strat = "Drain Surface Water";
-        } else {
-            strat = "Repair Surrounding Devices";
-        }
+    //     topCauseIndices.forEach(ci => {
+    //     let strat;
+    //     // map each cause index into one of your TraditionalStrategies:
+    //     if (ci < 3) {
+    //         strat = "No Available Treatment";
+    //     } else if (ci < 17) {
+    //         strat = "Avoid Similar Mistakes During Maintenance And Reconstruction";
+    //     } else if (ci === 17) {
+    //         strat = "Design Lanes For Different Vehicle Or Improve Traffic Allocation";
+    //     } else if (ci === 18) {
+    //         strat = "Improve Traffic Allocation";
+    //     } else if (ci === 19) {
+    //         strat = "Implement Speed Reduction Measures";
+    //     } else if (ci < 22) {
+    //         strat = "Drain Surface Water";
+    //     } else {
+    //         strat = "Repair Surrounding Devices";
+    //     }
     
-        if (!used.has(strat)) {
-            used.add(strat);
-            lines.push(strat);
-        }
-        });
+    //     if (!used.has(strat)) {
+    //         used.add(strat);
+    //         lines.push(strat);
+    //     }
+    //     });
     
-        return lines.join(" or ");
-    }
-
-    // function likelihoodPhrase(rel, secondRel=0) {
-    //     const d = rel - secondRel;
-    //     if (d <=0.1) return "somewhat likely to be caused by";
-    //     if (d <=0.3) return "quite likely to be caused by";
-    //     if (d <=0.5) return "very likely to be caused by";
-    //     if (d <1)    return "incredibly likely to be caused by";
-    //     return "certainly caused by";
+    //     return lines.join(" or ");
     // }
+
+    // Expect these from your loader:
+    // loaded.UniqueTreatment: string[]
+    // loaded.TreatmentAmount: number[][]  // rows = treatments, cols = causes (0/1)
+
+    function getTraditionalRepair(topCauseIndices, UniqueTreatment, TreatmentAmount) {
+        // Sum the treatment columns for all top causes
+        const tLen = UniqueTreatment.length;
+        const accum = Array(tLen).fill(0);
+
+        topCauseIndices.forEach(ci => {
+            for (let t = 0; t < tLen; t++) {
+            accum[t] += (TreatmentAmount[t][ci] || 0);
+            }
+        });
+
+        // Any treatment with accum[t] > 0 is applicable
+        const names = [];
+        for (let t = 0; t < tLen; t++) {
+            if (accum[t] !== 0) names.push(UniqueTreatment[t]);
+        }
+
+        return names.join(" or ");
+    }
     
     /**
      * @param {Array} selected    – the same array you build in getDiagnosis()
@@ -497,7 +425,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const sentence1 = `${causePrefix} ${causeNames}.`;
     
         // 2) Traditional strategies (just pick those mapped to your cause groups)
-        const traditional   = getTraditionalRepair(topCauseIndices);
+        const traditional = getTraditionalRepair(topCauseIndices, loaded.UniqueTreatment, loaded.TreatmentAmount);
         const sentence2     = `Which is traditionally treated by ${traditional}.`;
     
         // 3) Repairs sentence
@@ -561,25 +489,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Get diagnosis function
     function getDiagnosis() {
         resultsContainer.style.display = "block";
-        // let selectedSymptoms = [...document.querySelectorAll(".symptom-container")].map(container => {
-        //     return {
-        //         symptom: container.dataset.symptom,
-        //         severity: container.querySelector(".severity-select").value,
-        //         quantity: parseInt(container.querySelector(".quantity-input").value, 10) || 1 // Default to 1 if not provided
-        //     };
-        // });
-
-        // const selected = Array.from(document.querySelectorAll(".symptom-container"))
-        //     .map(c => ({
-        //     symptomIndex: data.symptoms.indexOf(c.dataset.symptom),
-        //     severity:      c.querySelector(".severity-select").value,
-        //     quantity:      +c.querySelector(".quantity-input").value || 1
-        //     }));
-
-        // if (selected.length === 0) {
-        //     resultsContainer.innerHTML = '<p>Please select at least one symptom.</p>';
-        //     return;
-        // }
 
         // Grab every symptom-container in the DOM
         const containers = document.querySelectorAll(".symptom-container");
@@ -665,104 +574,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                     { key:'Lifespan Range',label:'Lifespan Range' },
                     { key:'Cost',          label:'Cost' },
                     ]);
-
-        entries.forEach(symptom => {
-            /* if () {
-                possibleCauses.push();
-            }
-            if () {
-                recommendedRepairs.push();
-            } */
-        });
-
-        /**
-         * Compute most likely causes with percentage normalization
-         * @param {Array} selectedSymptoms - List of { symptom, severity, quantity }
-         * @returns {Array} Array of top 5 causes with percentages
-         */
-        // function computeLikelyCauses(selectedSymptoms) {
-        //     const causeScores = Array(data.causes.length).fill(0);
-        //     let checkCount = 0;
-
-        //     selectedSymptoms.forEach(({ symptom, severity, quantity }) => {
-        //         const symptomIndex = data.symptoms.indexOf(symptom);
-        //         if (symptomIndex !== -1) {
-        //             checkCount++;
-        //             for (let i = 0; i < data.causes.length; i++) {
-        //                 causeScores[i] += fullMatrix[symptomIndex][i]; // 0 or 1
-        //             }
-        //         }
-        //     });
-
-        //     const percentages = causeScores.map(score =>
-        //         checkCount > 0 ? Math.round((score / checkCount) * 100) : 0
-        //     );
-
-        //     return data.causes
-        //         .map((cause, i) => ({ cause, percentage: percentages[i] }))
-        //         .sort((a, b) => b.percentage - a.percentage)
-        //         .slice(0, 5);
-        // }
-
-
-        /**
-         * Compute best repair strategies with percentage normalization and duration
-         * @param {Array} selectedSymptoms - List of { symptom, severity }
-         * @returns {Array} Array of top 5 repair strategies with percentages and estimated duration
-         */
-        // function computeBestRepairs(selectedSymptoms) {
-        //     const repairScores = Array(data.repairStrategies.length).fill(0);
-        //     let checkCount = 0;
-
-        //     selectedSymptoms.forEach(({ symptom, severity, quantity }) => {
-        //         const symptomIndex = data.symptoms.indexOf(symptom);
-
-        //         const matrix = fullTotalMatrix["Individual"][severity]; // Assuming "Individual" for now
-
-        //         if (symptomIndex !== -1 && matrix) {
-        //             checkCount++;
-        //             for (let i = 0; i < data.repairStrategies.length; i++) {
-        //                 // Multiply by quantity
-        //                 repairScores[i] += matrix[symptomIndex][i] * quantity; // numeric weight
-        //             }
-        //         }
-        //     });
-
-        //     const percentages = repairScores.map(score =>
-        //         checkCount > 0 ? Math.round((score / checkCount) * 100) : 0
-        //     );
-
-        //     return data.repairStrategies
-        //         .map((repair, i) => ({
-        //             repair,
-        //             percentage: percentages[i],
-        //             duration: data.timeSync[i] // TimeSync is mapped by index
-        //         }))
-        //         .sort((a, b) => b.percentage - a.percentage)
-        //         .slice(0, 5);
-        // }
-
-        // resultsContainer.innerHTML = "<h3>Possible Causes</h3>";
-        // const possibleCauses = computeLikelyCauses(selectedSymptoms);
-        // possibleCauses.forEach(item => {
-        //     const div = document.createElement("div");
-        //     div.innerHTML = `<strong>${item.cause}</strong>: ${item.percentage}%`;
-        //     resultsContainer.appendChild(div);
-        // });
-
-        // resultsContainer.innerHTML += "<h3>Recommended Repairs</h3>";
-        // const recommendedRepairs = computeBestRepairs(selectedSymptoms);
-        // recommendedRepairs.forEach(item => {
-        //     const div = document.createElement("div");
-        //     div.innerHTML = `<strong>${item.repair}</strong>: ${item.percentage}% (Estimated Repair Duration: ${item.duration} years)`;
-        //     resultsContainer.appendChild(div);
-        // });
-
-        // resultsContainer.innerHTML += "<h3>Traditional Repair Strategy</h3>";
-        // const traditional = getTraditionalRepair(selectedSymptoms);
-        // const tradDiv = document.createElement("div");
-        // tradDiv.innerHTML = `<strong>${traditional}</strong>`;
-        // resultsContainer.appendChild(tradDiv);
     }
     diagnoseButton.addEventListener("click", getDiagnosis);
 });
