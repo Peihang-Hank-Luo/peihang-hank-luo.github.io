@@ -507,7 +507,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             Percentage: pct + '%',
             'Rel. Certainty': analysis.repairRel[i],
             Lifespan: (lifeMean[i] <= -100 ? 'Not available' : data.timeSync[i] + ' yrs'),
-            'Lifespan Range': (lifeRange[i] <= -100 ? 'Not available' : lifeRange[i] + ' yrs'),
+            'Lifespan Range': (lifeRange[i] >= 100 ? 'Not available' : lifeRange[i] + ' yrs'),
             Cost: costMatrixNamed[i]
         })).sort((a,b) => parseInt(b.Percentage) - parseInt(a.Percentage));
 

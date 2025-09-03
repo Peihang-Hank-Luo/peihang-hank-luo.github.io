@@ -61,7 +61,7 @@ async function loadAllData(basePath = '../assets/csv/') {
     const causeRows = [];
     const seenCause = new Set();
     for (const r of causeTreatment) {
-    const id = Number(r.CauseID);
+    const id = Number(r.ID);
     if (!Number.isFinite(id)) continue;
     if (seenCause.has(id)) continue;
     seenCause.add(id);
@@ -93,7 +93,7 @@ async function loadAllData(basePath = '../assets/csv/') {
     const treatmentRows = [];
     const seenTreat = new Set();
     for (const r of causeTreatment) {
-    const tID = String(r.TreatmentID);     // stable ID
+    const tID = String(r.TreatmentID || r.TeatmentID);     // stable ID
     if (!tID) continue;
     if (seenTreat.has(tID)) continue;
     seenTreat.add(tID);
@@ -106,8 +106,8 @@ async function loadAllData(basePath = '../assets/csv/') {
     const TreatmentAmount = Array.from({length: UniqueTreatmentID.length}, () => new Array(UniqueCauseID.length).fill(0));
 
     causeTreatment.forEach(r => {
-    const cIdx = causeIndexByID.get(Number(r.CauseID));
-    const tIdx = treatmentIndexByID.get(String(r.TreatmentID));
+    const cIdx = causeIndexByID.get(Number(r.ID));
+    const tIdx = treatmentIndexByID.get(String(r.TreatmentID || r.TeatmentID));
     if (cIdx != null && tIdx != null) TreatmentAmount[tIdx][cIdx] = 1;
     });
 
@@ -186,10 +186,10 @@ async function loadAllData(basePath = '../assets/csv/') {
             repairGroupMask[idx][0].fill(1,0,4);
             repairGroupMask[idx][1].fill(1,0,4);
         }
-        if (gv.includes('Individual')) {
+        if (gv.includes('individual')) {
             repairGroupMask[idx][0].fill(1,0,4);
         }
-        if (gv.includes('Widespread')) {
+        if (gv.includes('widespread')) {
             if (gv.includes('very low')) repairGroupMask[idx][1][0] = 1;
             else if (gv.includes('low')) repairGroupMask[idx][1][1] = 1;
             else if (gv.includes('medium')) repairGroupMask[idx][1][2] = 1;
