@@ -491,25 +491,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         const repairOrder = [...picked.topRepIdx, ...restIdx];
 
         // now map to rows using that order
-        // const fullRepairData = repairOrder.map(i => ({
-        //     Repair: data.repairStrategies[i],
-        //     Category: data.repairStrategyGroups[i],
-        //     Percentage: analysis.repairPct[i] + '%',
-        //     'Rel. Certainty': analysis.repairRel[i],
-        //     Lifespan: data.timeSync[i] + ' yrs',
-        //     'Lifespan Range': lifeRange[i] + ' yrs',
-        //     Cost: costMatrixNamed[i]
-        // }));
-
-        const fullRepairData = analysis.repairPct.map((pct,i) => ({
+        const fullRepairData = repairOrder.map(i => ({
             Repair: data.repairStrategies[i],
             Category: data.repairStrategyGroups[i],
-            Percentage: pct + '%',
+            Percentage: analysis.repairPct[i] + '%',
             'Rel. Certainty': analysis.repairRel[i],
             Lifespan: (lifeMean[i] <= -100 ? 'Not available' : data.timeSync[i] + ' yrs'),
             'Lifespan Range': (lifeRange[i] >= 100 ? 'Not available' : lifeRange[i] + ' yrs'),
             Cost: costMatrixNamed[i]
-        })).sort((a,b) => parseInt(b.Percentage) - parseInt(a.Percentage));
+        }));
 
         // Slice for top-5 if needed
         const causeSlice  = showFull ? fullCauseData : fullCauseData.slice(0,5);
