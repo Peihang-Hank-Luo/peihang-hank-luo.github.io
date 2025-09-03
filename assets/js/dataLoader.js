@@ -351,7 +351,7 @@ async function loadAllData(basePath = '../assets/csv/') {
 
     defectCause.forEach(r => {
         const d = symptoms.indexOf(r.Defect);
-        const c = causes.indexOf(r['Cause Name']);
+        const c = UniqueCause.indexOf(r['Cause Name']);
         if (d>-1 && c>-1) fullMatrix[d][c] = 1;
     });
 
