@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const sentence1 = `${causePrefix} ${causeNames}.`;
     
         // 2) Traditional strategies (just pick those mapped to your cause groups)
-        const traditional = getTraditionalRepair(topCauseIndices, loaded.UniqueTreatment, loaded.TreatmentAmount);
+        const traditional = getTraditionalRepair(topCauseIndices, loaded.data.UniqueTreatment, loaded.TreatmentAmount);
         const sentence2     = `Which is traditionally treated by ${traditional}.`;
     
         // 3) Repairs sentence
