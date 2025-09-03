@@ -535,17 +535,32 @@ document.addEventListener("DOMContentLoaded", async function () {
         }))
         .sort((a,b) => parseInt(b.Percentage) - parseInt(a.Percentage));
 
-        const fullRepairData = analysis.repairPct
-        .map((pct,i) => ({
+        // Build the final repair ordering:
+        // 1) Put the chosen top repairs (from pickTop) first (preserving their order)
+        // 2) Append the remaining repairs sorted by percentage desc
+
+        const allRepairIdx = [...Array(data.repairStrategies.length).keys()];
+        const topRepIdxSet = new Set(picked.topRepIdx);
+
+        // indices not in the top set
+        const restIdx = allRepairIdx.filter(i => !topRepIdxSet.has(i));
+
+        // sort the rest by percentage desc
+        restIdx.sort((a, b) => analysis.repairPct[b] - analysis.repairPct[a]);
+
+        // final order = top first, then sorted rest
+        const repairOrder = [...picked.topRepIdx, ...restIdx];
+
+        // now map to rows using that order
+        const fullRepairData = repairOrder.map(i => ({
             Repair: data.repairStrategies[i],
             Category: data.repairStrategyGroups[i],
-            Percentage: pct + '%',
+            Percentage: analysis.repairPct[i] + '%',
             'Rel. Certainty': analysis.repairRel[i],
             Lifespan: data.timeSync[i] + ' yrs',
             'Lifespan Range': lifeRange[i] + ' yrs',
             Cost: costMatrixNamed[i]
-        }))
-        .sort((a,b) => parseInt(b.Percentage) - parseInt(a.Percentage));
+        }));
 
         // Slice for top-5 if needed
         const causeSlice  = showFull ? fullCauseData : fullCauseData.slice(0,5);
