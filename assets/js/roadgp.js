@@ -194,33 +194,58 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
 
         const threshold = roadLen / 2;
+        const groupName = (quantity >= threshold) ? 'Widespread' : 'Individual';
 
-        // Preferred new keys first, with fallback to the old keys
-        const want = (quantity >= threshold)
-            ? ["Widespread", "Group"]     // new then old
-            : ["Individual", "Individual"];
+        // map names → indices
+        const mi = ['asphalt','concrete'].indexOf((material || '').toLowerCase());
+        const gi = ['Individual','Widespread'].indexOf(groupName);
+        const si = ['Very Low','Low','Medium','High','Unknown'].indexOf(severity);
 
-        const sevKey = severity;        // e.g. "Very Low", "Low", ..., "Unknown"
-
-        // Safely walk the structure & fall back if a variant isn't present
-        const byMat = fullTotalMatrix[material] || {};
-        let modeKey = want.find(k => byMat[k] && byMat[k][sevKey]);
-        if (!modeKey) {
-            // if severity wasn’t present, try any available severity bucket for that mode
-            modeKey = want.find(k => byMat[k]);
-        }
-        const byMode = (modeKey && byMat[modeKey]) || {};
-        const bySev  = byMode[sevKey];
-
-        if (!bySev) {
-            // No matching matrix → return a zero vector to avoid crashes
+        if (mi < 0 || gi < 0 || si < 0 || symptomIndex < 0) {
             return Array(nRepairs).fill(0);
         }
-        return bySev[symptomIndex] || Array(nRepairs).fill(0);
+
+        // Safe access into 5D tensor
+        const byMat  = FullRepairMatrix[mi] || [];
+        const byGrp  = byMat[gi] || [];
+        const bySev  = byGrp[si] || [];
+        const vector = bySev[symptomIndex] || null;
+
+        return Array.isArray(vector) ? vector : Array(nRepairs).fill(0);
+    }
+
+    function getRepairVector(material, symptomIndex, severity, quantity) {
+        const nRepairs = data.repairStrategies.length;
+
+        let roadLen = parseFloat(document.getElementById("road-length-input").value);
+        if (isNaN(roadLen) || roadLen <= 0) {
+            showWarning("Invalid road length. Using default of 100 meters.");
+            roadLen = 100;
+        }
+
+        const threshold = roadLen / 2;
+        const groupName = (quantity >= threshold) ? 'Widespread' : 'Individual';
+
+        // map names → indices
+        const mi = materialOrder.indexOf((material || '').toLowerCase());
+        const gi = groupOrder.indexOf(groupName);
+        const si = severityOrder.indexOf(severity);
+
+        if (mi < 0 || gi < 0 || si < 0 || symptomIndex < 0) {
+            return Array(nRepairs).fill(0);
+        }
+
+        // Safe access into 5D tensor
+        const byMat  = FullRepairMatrix[mi] || [];
+        const byGrp  = byMat[gi] || [];
+        const bySev  = byGrp[si] || [];
+        const vector = bySev[symptomIndex] || null;
+
+        return Array.isArray(vector) ? vector : Array(nRepairs).fill(0);
     }
 
     function analyze(selected, material) {
-        const causeScores  = Array(data.causes.length).fill(0);
+        const causeScores  = Array(data.UniqueCause.length).fill(0);
         const repairScores = Array(data.repairStrategies.length).fill(0);
 
         // FinalTotalCheck analogue – number of unique defects recorded
@@ -364,7 +389,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     
         // 1) Causes sentence
-        const causeNames = topCauseIndices.map(i=> data.causes[i]).join(" or ");
+        const causeNames = topCauseIndices.map(i=> data.UniqueCause[i]).join(" or ");
         const secondCauseRel = Math.max(...causeRel.filter((v,i)=>i!==topCauseIndices[0]));
         const sentence1 = `${causePrefix} ${causeNames}.`;
     
@@ -472,8 +497,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Prepare full sorted arrays
         const fullCauseData = analysis.causePct
         .map((pct,i) => ({
-            Cause: data.causes[i],
-            Category: data.causeStrategyGroups[i],
+            Cause: data.UniqueCause[i],
+            Category: data.UniqueCauseStrat[i],
             Percentage: pct + '%',
             relative: analysis.causeRel[i]
         }))
