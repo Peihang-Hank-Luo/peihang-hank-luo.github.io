@@ -214,36 +214,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         return Array.isArray(vector) ? vector : Array(nRepairs).fill(0);
     }
 
-    function getRepairVector(material, symptomIndex, severity, quantity) {
-        const nRepairs = data.repairStrategies.length;
-
-        let roadLen = parseFloat(document.getElementById("road-length-input").value);
-        if (isNaN(roadLen) || roadLen <= 0) {
-            showWarning("Invalid road length. Using default of 100 meters.");
-            roadLen = 100;
-        }
-
-        const threshold = roadLen / 2;
-        const groupName = (quantity >= threshold) ? 'Widespread' : 'Individual';
-
-        // map names → indices
-        const mi = materialOrder.indexOf((material || '').toLowerCase());
-        const gi = groupOrder.indexOf(groupName);
-        const si = severityOrder.indexOf(severity);
-
-        if (mi < 0 || gi < 0 || si < 0 || symptomIndex < 0) {
-            return Array(nRepairs).fill(0);
-        }
-
-        // Safe access into 5D tensor
-        const byMat  = FullRepairMatrix[mi] || [];
-        const byGrp  = byMat[gi] || [];
-        const bySev  = byGrp[si] || [];
-        const vector = bySev[symptomIndex] || null;
-
-        return Array.isArray(vector) ? vector : Array(nRepairs).fill(0);
-    }
-
     function analyze(selected, material) {
         const causeScores  = Array(data.UniqueCause.length).fill(0);
         const repairScores = Array(data.repairStrategies.length).fill(0);
