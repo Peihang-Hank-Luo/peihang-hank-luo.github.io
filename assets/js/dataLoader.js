@@ -139,7 +139,7 @@ async function loadAllData(basePath = '../assets/csv/') {
             lifeMean.push(isNaN(mn) ? -100 : mn);
             lifeMin.push(isNaN(mnMin) ? -100 : mnMin);
             lifeMax.push(isNaN(mnMax) ? -100 : mnMax);
-            lifeRange.push((!isNaN(mnMin) && !isNaN(mnMax)) ? (mnMax - mnMin) : -100);
+            lifeRange.push((!isNaN(mnMin) && !isNaN(mnMax)) ? (mnMax - mnMin) : 100);
         }
     });
 
@@ -232,9 +232,11 @@ async function loadAllData(basePath = '../assets/csv/') {
                 const matArr = Array.from({length:nSymptoms},()=>Array(nRepairs).fill(0));
                 for (let d=0; d<nSymptoms; d++) {
                     for (let r=0; r<nRepairs; r++) {
-                        if (repairMaterialMask[r][mi] && repairGroupMask[r][gi][si] && repairDefectMask[si][d][r]) {
-                            matArr[d][r] = 1;
-                        }
+                        const matOK  = repairMaterialMask[r][mi] ? 1 : 0;          // 0 or 1
+                        const grpW   = repairGroupMask[r][gi][si] || 0;            // 0, 1, or fractional for "Unknown"
+                        const defect = repairDefectMask[si][d][r] ? 1 : 0;         // 0 or 1
+                        const w = matOK * grpW * defect;                           // numeric weight
+                        if (w) matArr[d][r] = w;                                   // keep it numeric
                     }
                 }
                 fullTotalMatrix[mat][g][sev] = matArr;

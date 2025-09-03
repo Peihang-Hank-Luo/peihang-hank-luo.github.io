@@ -184,20 +184,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         return mat ? mat.value.toLowerCase() : 'asphalt';
     }
 
-    // function getRepairVector(material, symptomIndex, severity, quantity) {
-    //     let roadLen = parseFloat(document.getElementById("road-length-input").value);
-
-    //     if (isNaN(roadLen) || roadLen <= 0) {
-    //         showWarning("Invalid road length. Using default of 100 meters.");
-    //         roadLen = 100;
-    //     }
-
-    //     const threshold = roadLen / 2;
-    //     const mode = (quantity >= threshold) ? "Widespread" : "Individual";
-    //     const matrix = fullTotalMatrix[material][mode][severity];
-    //     return matrix[symptomIndex];  // returns an array of repair-weights
-    // }
-
     function getRepairVector(material, symptomIndex, severity, quantity) {
         const nRepairs = data.repairStrategies.length;
 
@@ -300,48 +286,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       
         return { topCauseIndices, topRepIdx };
     }
-
-    /**
-     * @param {number[]} topCauseIndices
-     *   an array of cause-indices sorted by descending likelihood
-     * @returns {string}
-     *   a human-readable “traditionally treated by …” phrase
-     */
-    // function getTraditionalRepair(topCauseIndices) {
-    //     const used = new Set();
-    //     const lines = [];
-    
-    //     topCauseIndices.forEach(ci => {
-    //     let strat;
-    //     // map each cause index into one of your TraditionalStrategies:
-    //     if (ci < 3) {
-    //         strat = "No Available Treatment";
-    //     } else if (ci < 17) {
-    //         strat = "Avoid Similar Mistakes During Maintenance And Reconstruction";
-    //     } else if (ci === 17) {
-    //         strat = "Design Lanes For Different Vehicle Or Improve Traffic Allocation";
-    //     } else if (ci === 18) {
-    //         strat = "Improve Traffic Allocation";
-    //     } else if (ci === 19) {
-    //         strat = "Implement Speed Reduction Measures";
-    //     } else if (ci < 22) {
-    //         strat = "Drain Surface Water";
-    //     } else {
-    //         strat = "Repair Surrounding Devices";
-    //     }
-    
-    //     if (!used.has(strat)) {
-    //         used.add(strat);
-    //         lines.push(strat);
-    //     }
-    //     });
-    
-    //     return lines.join(" or ");
-    // }
-
-    // Expect these from your loader:
-    // loaded.UniqueTreatment: string[]
-    // loaded.TreatmentAmount: number[][]  // rows = treatments, cols = causes (0/1)
 
     function getTraditionalRepair(topCauseIndices, UniqueTreatment, TreatmentAmount) {
         // Sum the treatment columns for all top causes
