@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const loaded = await loadAllData('../assets/csv/');
     const data = loaded.data;
     const fullMatrix = loaded.fullMatrix;
-    const fullTotalMatrix = loaded.fullTotalMatrix;
+    const FullRepairMatrix = loaded.FullRepairMatrix;
     const costMatrix = loaded.costMatrix;       // weighting values
     const costMatrixNamed = loaded.costMatrixNamed; // descriptive strings
     const costRank = loaded.costRank;           // 1=low 2=medium 3=high
