@@ -7,6 +7,7 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
+    box-sizing: border-box;
 }
 
 #symptom-input {
@@ -206,7 +207,7 @@ button:hover {
 
 /* General styling for all input elements */
 input {
-    width: calc(100% - 20px); /* Make inputs align with other elements */
+    width: 100%; /* Make inputs align with other elements */
     padding: 12px; /* Add padding for better usability */
     font-size: 16px; /* Consistent font size */
     border: 1px solid #ccc; /* Neutral border color */
@@ -215,6 +216,7 @@ input {
     display: block;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transitions */
+    box-sizing: border-box;
 }
 
 /* Focus state for input elements */
@@ -228,7 +230,7 @@ input:focus {
 input[type="number"] {
     appearance: textfield; /* Standard property for compatibility */
     -moz-appearance: textfield; /* Remove spinner in Firefox */
-    width: calc(100% - 20px); /* Ensure it fits within the container */
+    width: 100%; /* Ensure it fits within the container */
     padding: 10px; /* Match padding with other inputs */
     font-size: 16px; /* Consistent font size */
     margin: 0; /* Center-align and add spacing below */
@@ -412,8 +414,20 @@ input.severity-quantity::-webkit-outer-spin-button {
 
 .road-length input {
     width: 65%;
+    max-width: 100%;
+    box-sizing: border-box;
     display: block;
     margin: 0 auto;
+}
+
+#results table {
+    width: 100%;
+}
+
+#results .results-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .step1-grid label {
@@ -486,6 +500,11 @@ input.severity-quantity::-webkit-outer-spin-button {
 
     .road-length input {
         width: 100%;
+        max-width: 100%;
+    }
+
+    #results table {
+        min-width: 640px;
     }
 
     .material-toggle {
