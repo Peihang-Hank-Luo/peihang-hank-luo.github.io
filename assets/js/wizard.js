@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const navItems = document.querySelectorAll('.nav-item');
     let currentStep = 1;
 
-    function showStep(n, moveFocus) {
+    function showStep(n, moveFocus = false) {
         currentStep = n;
         steps.forEach((step, idx) => {
             step.style.display = idx === n - 1 ? 'block' : 'none';
