@@ -29,9 +29,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 showStep(targetStep);
             }
             if (event.key === 'ArrowRight' && currentStep < steps.length) {
+                event.preventDefault();
+                event.stopPropagation();
                 showStep(currentStep + 1);
             }
             if (event.key === 'ArrowLeft' && currentStep > 1) {
+                event.preventDefault();
+                event.stopPropagation();
                 showStep(currentStep - 1);
             }
         });
