@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         symptomButtons.appendChild(button);
     });
 
-    filterSymptomButtons([]);  // hides all until region is chosen
+    filterSymptomButtons(data.symptoms);  // default to showing all defects
 
     // Autocomplete function
     input.addEventListener("input", function () {
@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const step2Btn = document.getElementById('to-step-2');
     if (step2Btn) {
         step2Btn.addEventListener('click', () => {
-            filterSymptomButtons(currentList);
+            filterSymptomButtons(currentList.length ? currentList : data.symptoms);
         });
     }
 
