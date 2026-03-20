@@ -365,6 +365,7 @@ input.severity-quantity::-webkit-outer-spin-button {
     background: #eee;
     padding: 6px 12px;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .step-nav .nav-item.active {
