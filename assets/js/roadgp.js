@@ -422,7 +422,10 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         table.appendChild(tbody);
     
-        container.appendChild(table);
+        const tableWrap = document.createElement('div');
+        tableWrap.className = 'results-table-wrap';
+        tableWrap.appendChild(table);
+        container.appendChild(tableWrap);
     }
 
     // Get diagnosis function
