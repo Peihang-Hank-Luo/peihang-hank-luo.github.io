@@ -1,0 +1,104 @@
+.supplementary-page {
+    width: min(680px, 100%);
+    margin: 24px auto;
+    padding: 0 16px 24px;
+}
+
+.supplementary-card {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 24px 18px;
+}
+
+.conference-tag {
+    display: inline-block;
+    margin: 0 0 10px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #edf2ff;
+    color: #2a4dad;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+#supplementary-title {
+    margin: 0;
+    text-align: left;
+    font-size: clamp(1.5rem, 4.5vw, 2rem);
+    line-height: 1.2;
+}
+
+.intro-text {
+    margin: 14px 0 22px;
+    line-height: 1.6;
+}
+
+.materials-list {
+    display: grid;
+    gap: 12px;
+}
+
+.material-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #f8fafc;
+    border: 1px solid #dbe2ea;
+    border-radius: 12px;
+    padding: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.material-link:hover,
+.material-link:focus-visible {
+    transform: translateY(-2px);
+    border-color: #667eea;
+    box-shadow: 0 6px 14px rgba(102, 126, 234, 0.2);
+    outline: none;
+}
+
+.material-title {
+    display: block;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.material-status {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.92rem;
+    color: #555;
+}
+
+.material-link.placeholder {
+    background: #f3f4f6;
+    border-style: dashed;
+    color: #666;
+    cursor: not-allowed;
+}
+
+.material-link.placeholder:hover,
+.material-link.placeholder:focus-visible {
+    transform: none;
+    box-shadow: none;
+    border-color: #d1d5db;
+}
+
+.update-note {
+    margin: 18px 0 0;
+    font-size: 0.85rem;
+    color: #616161;
+}
+
+@media (min-width: 768px) {
+    .supplementary-page {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    .supplementary-card {
+        padding: 30px;
+    }
+}
