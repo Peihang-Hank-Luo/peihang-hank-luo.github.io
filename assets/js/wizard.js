@@ -28,7 +28,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('to-step-2').addEventListener('click', () => goToStep(2));
     document.getElementById('back-to-step-1').addEventListener('click', () => goToStep(1));
-    document.getElementById('diagnose-button').addEventListener('click', () => showStep(3));
+    if (diagnoseButton) {
+        diagnoseButton.addEventListener('click', () => showStep(3));
+    }
     document.getElementById('back-to-step-2').addEventListener('click', () => goToStep(2));
 
     navItems.forEach((item, idx) => {
