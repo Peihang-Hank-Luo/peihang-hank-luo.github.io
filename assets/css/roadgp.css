@@ -1,5 +1,6 @@
 #symptom-checker {
     width: 800px;
+    max-width: 100%;
     margin: 20px auto;
     background: white;
     padding: 20px;
@@ -455,4 +456,76 @@ input.severity-quantity::-webkit-outer-spin-button {
     background: #007BFF;
     color: #fff;
     border-color: #007BFF;
+}
+
+@media (max-width: 768px) {
+    #symptom-checker {
+        width: auto;
+        margin: 12px;
+        padding: 14px;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+
+    .step-nav {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .step-nav .nav-item {
+        flex: 1 1 calc(50% - 8px);
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .step1-grid {
+        width: 100%;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .road-length input {
+        width: 100%;
+    }
+
+    .material-toggle {
+        max-width: 100%;
+    }
+
+    .symptom-container {
+        grid-template-columns: 1fr;
+        row-gap: 10px;
+        column-gap: 0;
+        padding: 10px;
+        margin: 8px 0;
+    }
+
+    .symptom-chip {
+        max-width: 100%;
+    }
+
+    .severity-grid {
+        margin: 0;
+    }
+
+    .severity-row {
+        justify-content: space-between;
+    }
+
+    .remove-button {
+        justify-self: end;
+        margin: 0;
+    }
+
+    .navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .navigation button,
+    .navigation.justify-right button,
+    .navigation.single button {
+        width: 100%;
+        margin-top: 0;
+    }
 }
