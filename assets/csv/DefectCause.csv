@@ -1,0 +1,160 @@
+﻿Disease,Defect,Cause ID,Cause Name,TrueCause Name,RoadType
+Cracking,Transverse cracking,1,Frost heave,Frost heave,Asphalt
+Cracking,Transverse cracking,17,Load induced by heavy traffic,Load induced by heavy traffic,Asphalt
+Cracking,Longitudinal cracking,1,Frost heave,Frost heave,Asphalt
+Cracking,Longitudinal cracking,17,Load induced by heavy traffic,Load induced by heavy traffic,Asphalt
+Cracking,Edge cracking,1,Frost heave,Frost heave,Asphalt
+Cracking,Edge cracking,3,Weak asphalt mixes,Weak asphalt mixes,Asphalt
+Cracking,Edge cracking,6,"Base failure due to poor quality materials, lack of strength, or insufficient granularity","Base failure due to poor quality materials, lack of strength, or insufficient granularity",Asphalt
+Cracking,Edge cracking,13,Insufficient base structure,Insufficient base structure,Asphalt
+Cracking,Edge cracking,20,Poor drainage - excess moisture,Poor drainage - excess moisture,Asphalt
+Cracking,Block cracking,10,Fine aggregate mix with low penetration asphalt and absorptive aggregates,Fine aggregate mix with low penetration asphalt and absorptive aggregates,Asphalt
+Cracking,Block cracking,14,Improper compaction,Improper compaction,Asphalt
+Cracking,Block cracking,18,Low traffic volume,Low traffic volume,Asphalt
+Cracking,Alligator cracking,6,"Base failure due to poor quality materials, lack of strength, or insufficient granularity","Base failure due to poor quality materials, lack of strength, or insufficient granularity",Asphalt
+Cracking,Alligator cracking,13,Insufficient base structure,Insufficient base structure,Asphalt
+Cracking,Alligator cracking,14,Improper compaction,Improper compaction,Asphalt
+Cracking,Alligator cracking,20,Poor drainage - excess moisture,Poor drainage - excess moisture,Asphalt
+Disintegration,Pothole,3,Weak asphalt mixes,Weak asphalt mixes,Asphalt
+Disintegration,Pothole,20,Poor drainage - excess moisture,Poor drainage - excess moisture,Asphalt
+Disintegration,Pothole,22,Continued deterioration of another defect type,Continued deterioration of another defect type,Asphalt
+Disintegration,Patches,6,"Base failure due to poor quality materials, lack of strength, or insufficient granularity","Base failure due to poor quality materials, lack of strength, or insufficient granularity",Asphalt
+Disintegration,Patches,12,Improper or inferior materials,Improper or inferior materials,Asphalt
+Surface deformation,Shoving,5,Mix too high in asphalt,Mix too high in asphalt,Asphalt
+Surface deformation,Shoving,7,High fine aggregate content,High fine aggregate content,Asphalt
+Surface deformation,Shoving,15,Rounded or smooth aggregate,Rounded or smooth aggregate,Asphalt
+Surface deformation,Shoving,19,Heavy loaded vehicles speeding up or slowing down,Heavy loaded vehicles speeding up or slowing down,Asphalt
+Surface deformation,Shoving,21,Excessive moisture on the basis,Excessive moisture on the basis,Asphalt
+Surface deformation,Rutting,3,Weak asphalt mixes,Weak asphalt mixes,Asphalt
+Surface deformation,Rutting,11,Inadequate design of layers thickness,Inadequate design of layers thickness,Asphalt
+Surface deformation,Rutting,14,Improper compaction,Improper compaction,Asphalt
+Surface deformation,Distortion,1,Frost heave,Frost heave,Asphalt
+Surface deformation,Distortion,12,Improper or inferior materials,Improper or inferior materials,Asphalt
+Surface defects,Raveling,4,Lack of asphalt,Lack of asphalt,Asphalt
+Surface defects,Raveling,14,Improper compaction,Improper compaction,Asphalt
+Surface defects,Raveling,17,Load induced by heavy traffic,Load induced by heavy traffic,Asphalt
+Surface defects,Raveling,20,Poor drainage - excess moisture,Poor drainage - excess moisture,Asphalt
+Surface defects,Bleeding,2,Hot weather,Hot weather,Asphalt
+Surface defects,Bleeding,5,Mix too high in asphalt,Mix too high in asphalt,Asphalt
+Surface defects,Bleeding,8,Low air voids,Low air voids,Asphalt
+Surface defects,Bleeding,9,Heavy prime or tack coat,Heavy prime or tack coat,Asphalt
+Surface defects,Bleeding,16,Inadequately applied seal coat,Inadequately applied seal coat,Asphalt
+Drainage failure,Flooding and standing water,102,Debris and detritus,Debris and detritus,Both
+Drainage failure,Flooding and standing water,103,Ground condition,Ground condition,Both
+Drainage failure,Flooding and standing water,104,Human damage,Human damage,Both
+Drainage failure,Flooding and standing water,105,Material degradation,Material degradation,Both
+Drainage failure,Flooding and standing water,106,General moisture,General moisture,Both
+Drainage failure,Flooding and standing water,107,General poor construction,General poor construction,Both
+Drainage failure,Flooding and standing water,108,General poor asset design,General poor asset design,Both
+Drainage failure,Flooding and standing water,110,Poor maintenance,Poor maintenance,Both
+Drainage failure,Flooding and standing water,111,Poor operation,Poor operation,Both
+Drainage failure,Flooding and standing water,112,Vegetation,Vegetation,Both
+Drainage failure,Flooding and standing water,114,Wear and tear,Wear and tear,Both
+Drainage failure,Flooding and standing water,115,General weather,General weather,Both
+Hinderance,Blockage (gully),115,General weather,General weather,Both
+Hinderance,Blockage (gully),112,Vegetation,Vegetation,Both
+Hinderance,Blockage (gully),110,Poor maintenance,Poor maintenance,Both
+Hinderance,Blockage (gully),102,Debris and detritus,Debris and detritus,Both
+Hinderance,Blockage (gully),114,Wear and tear,Wear and tear,Both
+Hinderance,Blockage (gully),104,Human damage,Human damage,Both
+Hinderance,Blockage (gully),109,General poor installation,General poor installation,Both
+Hinderance,Blockage (gully),116,Air,Air,Both
+Road marking defects,Material fault,115,General weather,General weather,Both
+Road marking defects,Material fault,114,Wear and tear,Wear and tear,Both
+Road marking defects,Material fault,107,General poor construction,General poor construction,Both
+Road marking defects,Material fault,108,General poor asset design,General poor asset design,Both
+Road marking defects,Skidding,115,General weather,General weather,Both
+Road marking defects,Skidding,114,Wear and tear,Wear and tear,Both
+Road marking defects,Skidding,107,General poor construction,General poor construction,Both
+Road marking defects,Skidding,108,General poor asset design,General poor asset design,Both
+Road marking defects,Poor retroreflectivity,115,General weather,General weather,Both
+Road marking defects,Poor retroreflectivity,114,Wear and tear,Wear and tear,Both
+Road marking defects,Poor retroreflectivity,107,General poor construction,General poor construction,Both
+Road marking defects,Poor retroreflectivity,108,General poor asset design,General poor asset design,Both
+Road marking defects,Poor luminance,115,General weather,General weather,Both
+Road marking defects,Poor luminance,114,Wear and tear,Wear and tear,Both
+Road marking defects,Poor luminance,107,General poor construction,General poor construction,Both
+Road marking defects,Poor luminance,108,General poor asset design,General poor asset design,Both
+Road marking defects,Stud defects,114,Wear and tear,,Both
+Road marking defects,Stud defects,109,General poor installation,,Both
+Road marking defects,Stud defects,110,Poor maintenance,,Both
+Road marking defects,Stud retroreflectivity,109,General poor installation,,Both
+Road marking defects,Stud retroreflectivity,110,Poor maintenance,,Both
+Surface defects,Surface irregularities,22,Continued deterioration of another defect type,,Concrete
+Disintegration,Surface scaling,230,Freeze-thaw,Freeze-thaw,Concrete
+Disintegration,Surface scaling,203,Improper finishing and curing,Improper finishing and curing,Concrete
+Disintegration,Surface scaling,213,Inadequate cement content,Inadequate cement content,Concrete
+Disintegration,Surface scaling,225,Weather damage during construction,Weather damage during construction,Concrete
+Disintegration,Surface scaling,201,Vehicle fires and spillages,"Fuel or chemical spillages, or vehicle fire",Concrete
+Cracking,Crazing,203,Improper finishing and curing,Improper finishing and curing,Concrete
+Cracking,Crazing,214,Excessive laitance,Excessive laitance,Concrete
+Cracking,Crazing,202,Alkali-silica reaction ,Alkali-Silica Reaction (ASR),Concrete
+Disintegration,Pop-outs,230,Freeze-thaw,Freeze-thaw,Concrete
+Disintegration,Pop-outs,202,Alkali-silica reaction ,Alkali-Silica Reaction (ASR),Concrete
+Disintegration,Pop-outs,226,Embedded foreign materials,Embedded foreign materials,Concrete
+Joint defects,Defective joint seals,216,Sealant age,Sealant age,Concrete
+Joint defects,Defective joint seals,224,Traffic loading,Traffic loading,Concrete
+Joint defects,Defective joint seals,227,Environmental loading,Environmental loading,Concrete
+Joint defects,Defective joint seals,107,General poor construction,General poor construction,Concrete
+Joint defects,Defective joint seals,222,Locked up joints,Locked up joints,Concrete
+Joint defects,Defective joint seals,205,Poor slab support,Poor slab support,Concrete
+Joint defects,Shallow joint spalls,224,Traffic loading,Traffic loading,Concrete
+Joint defects,Shallow joint spalls,227,Environmental loading,Environmental loading,Concrete
+Joint defects,Shallow joint spalls,222,Locked up joints,Locked up joints,Concrete
+Joint defects,Shallow joint spalls,107,General poor construction,General poor construction,Concrete
+Displacement,Depressions,228,Geotechnical factors,Geotechnical factors,Concrete
+Displacement,Depressions,227,Environmental loading,Environmental loading,Concrete
+Displacement,Depressions,20,Poor drainage - excess moisture,Inadequate drainage,Concrete
+Displacement,Heave,229,Expansive or treated soils,Expansive or treated soils,Concrete
+Displacement,Heave,227,Environmental loading,Environmental loading,Concrete
+Displacement,Heave,1,Frost heave,Frost heave,Concrete
+Disintegration,Punchouts,22,Continued deterioration of another defect type,Continued deterioration of another defect type,Concrete
+Disintegration,Punchouts,224,Traffic loading,Traffic loading,Concrete
+Disintegration,Punchouts,219,Water penetration,Water penetration,Concrete
+Disintegration,Punchouts,220,Corroded reinforcement,Corroded reinforcement,Concrete
+Disintegration,Punchouts,215,Reinforcement too high in concrete,Reinforcement too high in concrete,Concrete
+Disintegration,Punchouts,206,"Inadequate thickness, concrete strength, or steel reinforcement","Inadequate thickness, concrete strength, or steel reinforcement",Concrete
+Joint defects,Deep joint spalls,224,Traffic loading,Traffic loading,Concrete
+Joint defects,Deep joint spalls,227,Environmental loading,Environmental loading,Concrete
+Joint defects,Deep joint spalls,222,Locked up joints,Locked up joints,Concrete
+Joint defects,Deep joint spalls,205,Poor slab support,Poor slab support,Concrete
+Joint defects,Deep joint spalls,207,Dowel bar issues,Dowel bar issues,Concrete
+Cracking,Corner cracking,224,Traffic loading,Traffic loading,Concrete
+Cracking,Corner cracking,227,Environmental loading,Environmental loading,Concrete
+Cracking,Corner cracking,205,Poor slab support,Poor slab support,Concrete
+Cracking,Corner cracking,209,Acute angles,Acute angles,Concrete
+Cracking,Corner cracking,207,Dowel bar issues,Dowel bar issues,Concrete
+Cracking,Corner cracking,222,Locked up joints,Locked up joints,Concrete
+Cracking,Cracking around ironworks,210,Lack of isolation around ironwork,Lack of isolation around ironwork,Concrete
+Cracking,Diagonal cracking,224,Traffic loading,Traffic loading,Concrete
+Cracking,Diagonal cracking,227,Environmental loading,Environmental loading,Concrete
+Cracking,Diagonal cracking,205,Poor slab support,Poor slab support,Concrete
+Cracking,Diagonal cracking,211,Slab dimensions,Slab dimensions,Concrete
+Cracking,Transverse cracking,222,Locked up joints,Locked up joints,Concrete
+Cracking,Transverse cracking,224,Traffic loading,Traffic loading,Concrete
+Cracking,Transverse cracking,227,Environmental loading,Environmental loading,Concrete
+Cracking,Transverse cracking,205,Poor slab support,Poor slab support,Concrete
+Cracking,Transverse cracking,223,Misalignment between top and bottom crack inducers,Misalignment between top and bottom crack inducers,Concrete
+Cracking,Transverse cracking,221,Local causes,Local causes,Concrete
+Cracking,Transverse cracking,217,End of pavement life,End of pavement life,Concrete
+Cracking,Longitudinal cracking,205,Poor slab support,Poor slab support,Concrete
+Cracking,Longitudinal cracking,224,Traffic loading,Traffic loading,Concrete
+Cracking,Longitudinal cracking,227,Environmental loading,Environmental loading,Concrete
+Cracking,Longitudinal cracking,222,Locked up joints,Locked up joints,Concrete
+Cracking,Longitudinal cracking,207,Dowel bar issues,Dowel bar issues,Concrete
+Cracking,Longitudinal cracking,211,Slab dimensions,Slab dimensions,Concrete
+Cracking,Longitudinal cracking,107,General poor construction,General poor construction,Concrete
+Displacement,Stepping,224,Traffic loading,Traffic loading,Concrete
+Displacement,Stepping,227,Environmental loading,Environmental loading,Concrete
+Displacement,Stepping,205,Poor slab support,Poor slab support,Concrete
+Displacement,Stepping,219,Water penetration,Water penetration,Concrete
+Displacement,Stepping,207,Dowel bar issues,Dowel bar issues,Concrete
+Displacement,Stepping,208,Tie bar issues,Tie bar issues,Concrete
+Displacement,Slab rocking,219,Water penetration,Water penetration,Concrete
+Displacement,Slab rocking,207,Dowel bar issues,Dowel bar issues,Concrete
+Displacement,Slab rocking,208,Tie bar issues,Tie bar issues,Concrete
+Displacement,Compression failures,227,Environmental loading,Environmental loading,Concrete
+Displacement,Compression failures,211,Slab dimensions,Slab dimensions,Concrete
+Displacement,Compression failures,222,Locked up joints,Locked up joints,Concrete
+Displacement,Compression failures,212,Lack of bond between upper and lower layers of concrete,Lack of bond between upper and lower layers of concrete,Concrete
+Displacement,Compression failures,14,Improper compaction,Improper compaction,Concrete
