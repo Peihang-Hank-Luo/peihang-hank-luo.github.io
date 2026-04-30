@@ -72,19 +72,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     const regionToSymptoms = buildRegionToSymptoms(data.symptoms);
-    const potentialMisclassifications = data.symptoms.filter(symptom => {
-        const normalized = symptom.toLowerCase();
-        const matches = Object.entries(regionClassifierRules)
-            .filter(([, keywords]) => keywords.some(keyword => normalized.includes(keyword)))
-            .map(([region]) => region);
-        return matches.length > 1;
-    });
+    const potentialMisclassifications = data.symptoms
+        .map(symptom => {
+            const normalized = symptom.toLowerCase();
+            const matchedRegions = Object.entries(regionClassifierRules)
+                .filter(([, keywords]) => keywords.some(keyword => normalized.includes(keyword)))
+                .map(([region]) => region);
+
+            return matchedRegions.length > 1
+                ? { symptom, matchedRegions }
+                : null;
+        })
+        .filter(Boolean);
 
     if (regionToSymptoms.unclassified.length) {
         console.warn("Unclassified defects (step 2 filter):", regionToSymptoms.unclassified);
     }
     if (potentialMisclassifications.length) {
-        console.warn("Potentially misclassified defects (ambiguous keyword score):", potentialMisclassifications);
+        console.warn("Defects matching keywords from multiple regions:", potentialMisclassifications);
     }
 
     const symptomButtons = document.getElementById("symptom-buttons");
