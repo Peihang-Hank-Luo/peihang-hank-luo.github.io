@@ -192,9 +192,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     // ————— Hook up the SVG click-zones —————
     let currentRegion = null;
     let currentList = data.symptoms;
-    document
-    .querySelectorAll("#road-selector svg g[id]")
-    .forEach(regionEl => {
+    const svgRegions = document.querySelectorAll("#road-selector svg g[id]");
+
+    function clearActiveRegion() {
+        svgRegions.forEach(el => el.classList.remove("active"));
+    }
+
+    svgRegions.forEach(regionEl => {
         regionEl.style.cursor = "pointer";
         regionEl.addEventListener("click", () => {
         const region = regionEl.id;    // "markings", "gully", "pavement"
@@ -204,9 +208,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (isTogglingOff) {
             currentRegion = null;
             currentList = data.symptoms;
-            document
-                .querySelectorAll("#road-selector svg g[id]")
-                .forEach(el => el.classList.remove("active"));
+            clearActiveRegion();
             filterSymptomButtons(currentList);
             return;
         }
@@ -215,9 +217,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         currentRegion = region;
         currentList = list.length ? list : data.symptoms;
 
-        document
-            .querySelectorAll("#road-selector svg g[id]")
-            .forEach(el => el.classList.remove("active"));
+        clearActiveRegion();
         regionEl.classList.add("active");
 
         filterSymptomButtons(currentList);
