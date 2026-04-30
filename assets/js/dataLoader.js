@@ -197,9 +197,10 @@ async function loadAllData(basePath = '../assets/csv/') {
         }
     });
 
+    const blend = [0.10, 0.30, 0.60];
     repairGroupMask.forEach(mask => {
         for (let g=0; g<2; g++) {
-            mask[g][3] = 0.10*mask[g][0] + 0.30*mask[g][1] + 0.60*mask[g][2];
+            mask[g][3] = blend[0]*mask[g][0] + blend[1]*mask[g][1] + blend[2]*mask[g][2];
         }
     });
 
@@ -284,7 +285,6 @@ async function loadAllData(basePath = '../assets/csv/') {
     }
 
     // Blend the Unknown (index 3) severity as weighted combination of 0..2
-    const blend = [0.10, 0.30, 0.60];
     for (let m = 0; m < 2; m++) {
     for (let g = 0; g < 2; g++) {
         for (let d = 0; d < nSymptoms; d++) {
