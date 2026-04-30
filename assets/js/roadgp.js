@@ -102,8 +102,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         chip.className = "symptom-chip";
         chip.textContent = symptom;
 
-        // Vertical grid of 5 severities
-        const severities = ["Very Low","Low","Medium","High","Unknown"];
+        // Vertical grid of 4 severities
+        const severities = ["Low","Medium","High","Unknown"];
         const grid = document.createElement("div");
         grid.className = "severity-grid";
 
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         // map names → indices
         const mi = ['asphalt','concrete'].indexOf((material || '').toLowerCase());
         const gi = ['Individual','Widespread'].indexOf(groupName);
-        const si = ['Very Low','Low','Medium','High','Unknown'].indexOf(severity);
+        const si = ['Low','Medium','High','Unknown'].indexOf(severity);
 
         if (mi < 0 || gi < 0 || si < 0 || symptomIndex < 0) {
             return Array(nRepairs).fill(0);

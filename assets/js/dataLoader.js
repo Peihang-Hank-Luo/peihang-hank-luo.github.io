@@ -163,7 +163,7 @@ async function loadAllData(basePath = '../assets/csv/') {
     const costMatrix = costMatrixNamed.map(costWeight);
     const costRank = costMatrixNamed.map(costRankVal);
 
-    const severityIndex = { 'Very Low':0,'Low':1,'Medium':2,'High':3,'Unknown':4 };
+    const severityIndex = { 'Low':0,'Medium':1,'High':2,'Unknown':3 };
     const severities = Object.keys(severityIndex);
     const materials = ['asphalt','concrete'];
     const groups = ['Individual','Widespread'];
@@ -172,8 +172,8 @@ async function loadAllData(basePath = '../assets/csv/') {
 
     const repairMaterialMask = Array.from({length:nRepairs},()=>[0,0]);
     const repairGroupMask = Array.from({length:nRepairs},()=>[
-        Array(5).fill(0),
-        Array(5).fill(0)
+        Array(4).fill(0),
+        Array(4).fill(0)
     ]);
 
     repairStrategies.forEach((name, idx) => {
@@ -183,33 +183,34 @@ async function loadAllData(basePath = '../assets/csv/') {
 
         const gv = (groupValues[idx] || '').toLowerCase();
         if (gv.includes('both')) {
-            repairGroupMask[idx][0].fill(1,0,4);
-            repairGroupMask[idx][1].fill(1,0,4);
+            repairGroupMask[idx][0].fill(1,0,3);
+            repairGroupMask[idx][1].fill(1,0,3);
         }
         if (gv.includes('individual')) {
-            repairGroupMask[idx][0].fill(1,0,4);
+            repairGroupMask[idx][0].fill(1,0,3);
         }
         if (gv.includes('widespread')) {
-            if (gv.includes('very low')) repairGroupMask[idx][1][0] = 1;
-            else if (gv.includes('low')) repairGroupMask[idx][1][1] = 1;
-            else if (gv.includes('medium')) repairGroupMask[idx][1][2] = 1;
-            else if (gv.includes('high') || gv.includes('severe')) repairGroupMask[idx][1][3] = 1;
-            else repairGroupMask[idx][1].fill(1,0,4);
+            if (gv.includes('low')) repairGroupMask[idx][1][0] = 1;
+            else if (gv.includes('medium')) repairGroupMask[idx][1][1] = 1;
+            else if (gv.includes('high') || gv.includes('severe')) repairGroupMask[idx][1][2] = 1;
+            else repairGroupMask[idx][1].fill(1,0,3);
         }
     });
 
+    const blend = [0.10, 0.30, 0.60];
     repairGroupMask.forEach(mask => {
         for (let g=0; g<2; g++) {
-            mask[g][4] = 0.05*mask[g][0] + 0.10*mask[g][1] + 0.30*mask[g][2] + 0.55*mask[g][3];
+            mask[g][3] = blend[0]*mask[g][0] + blend[1]*mask[g][1] + blend[2]*mask[g][2];
         }
     });
 
-    const repairDefectMask = Array.from({length:5},()=>Array.from({length:nSymptoms},()=>Array(nRepairs).fill(0)));
+    const repairDefectMask = Array.from({length:4},()=>Array.from({length:nSymptoms},()=>Array(nRepairs).fill(0)));
     defectRepair.forEach(row => {
         const d = symptoms.indexOf(row.Defect);
-        const sIdx = Number(row.Severity); // 0..3 in CSV (Very Low..High)
+        const rawSeverity = Number(row.Severity);
+        const sIdx = (rawSeverity >= 1 && rawSeverity <= 3) ? rawSeverity - 1 : rawSeverity; // Low..High -> 0..2
         const rInfo = repairById[row.RepairStrat];
-        if (d === -1 || !rInfo || Number.isNaN(sIdx) || sIdx < 0 || sIdx > 3) return;
+        if (d === -1 || !rInfo || Number.isNaN(sIdx) || sIdx < 0 || sIdx > 2) return;
 
         const ridx = repairNameToIndex[rInfo.Name];
         if (ridx === undefined) return;
@@ -219,7 +220,7 @@ async function loadAllData(basePath = '../assets/csv/') {
 
     for (let d=0; d<nSymptoms; d++) {
         for (let r=0; r<nRepairs; r++) {
-            repairDefectMask[4][d][r] = (repairDefectMask[0][d][r]||repairDefectMask[1][d][r]||repairDefectMask[2][d][r]||repairDefectMask[3][d][r]) ? 1 : 0;
+            repairDefectMask[3][d][r] = (repairDefectMask[0][d][r]||repairDefectMask[1][d][r]||repairDefectMask[2][d][r]) ? 1 : 0;
         }
     }
 
@@ -245,12 +246,12 @@ async function loadAllData(basePath = '../assets/csv/') {
     });
 
     // Build 5D DefectAmount, CostDefectAmount, CostLifeDefectAmount
-    // Dimensions: [material:2][group:2][severity:5][symptom:nSymptoms][repair:nRepairs]
+    // Dimensions: [material:2][group:2][severity:4][symptom:nSymptoms][repair:nRepairs]
 
     function make5D(fillVal=0) {
     return Array.from({length:2}, () => // material
         Array.from({length:2}, () =>     // group (Individual/Widespread)
-        Array.from({length:5}, () =>   // severity (Very Low..High, Unknown)
+        Array.from({length:4}, () =>   // severity (Low..High, Unknown)
             Array.from({length:nSymptoms}, () => Array(nRepairs).fill(fillVal))
         )
         )
@@ -264,7 +265,7 @@ async function loadAllData(basePath = '../assets/csv/') {
 
     for (let r = 0; r < nRepairs; r++) {
     for (let g = 0; g < 2; g++) {
-        for (let s = 0; s < 5; s++) {
+        for (let s = 0; s < 3; s++) {
         const present = repairGroupMask[r][g][s] ? 1 : 0; // 0/1
         if (!present) continue;
 
@@ -283,21 +284,20 @@ async function loadAllData(basePath = '../assets/csv/') {
     }
     }
 
-    // Blend the Unknown (index 4) severity as weighted combination of 0..3
-    const blend = [0.05, 0.10, 0.30, 0.55];
+    // Blend the Unknown (index 3) severity as weighted combination of 0..2
     for (let m = 0; m < 2; m++) {
     for (let g = 0; g < 2; g++) {
         for (let d = 0; d < nSymptoms; d++) {
         for (let r = 0; r < nRepairs; r++) {
             let v = 0, vc = 0, vcl = 0;
-            for (let s = 0; s < 4; s++) {
+            for (let s = 0; s < 3; s++) {
             v   += blend[s] * DefectAmount[m][g][s][d][r];
             vc  += blend[s] * CostDefectAmount[m][g][s][d][r];
             vcl += blend[s] * CostLifeDefectAmount[m][g][s][d][r];
             }
-            DefectAmount[m][g][4][d][r]        = v;
-            CostDefectAmount[m][g][4][d][r]    = vc;
-            CostLifeDefectAmount[m][g][4][d][r]= vcl;
+            DefectAmount[m][g][3][d][r]        = v;
+            CostDefectAmount[m][g][3][d][r]    = vc;
+            CostLifeDefectAmount[m][g][3][d][r]= vcl;
         }
         }
     }
@@ -309,7 +309,7 @@ async function loadAllData(basePath = '../assets/csv/') {
     for (let m = 0; m < 2; m++) {
         if (!repairMaterialMask[r][m]) continue;
         for (let g = 0; g < 2; g++) {
-        for (let s = 0; s < 5; s++) {
+        for (let s = 0; s < 4; s++) {
             for (let d = 0; d < nSymptoms; d++) {
             MaterialCheck[m][g][s][d][r] = 1;
             }
@@ -320,7 +320,7 @@ async function loadAllData(basePath = '../assets/csv/') {
 
     // RepairMatrix: expand your repairDefectMask into 5D (no material/group gating here)
     const RepairMatrix = make5D(0);
-    for (let s = 0; s < 5; s++) {
+    for (let s = 0; s < 4; s++) {
     for (let d = 0; d < nSymptoms; d++) {
         for (let r = 0; r < nRepairs; r++) {
         if (!repairDefectMask[s][d][r]) continue;
@@ -338,7 +338,7 @@ async function loadAllData(basePath = '../assets/csv/') {
     const out = make5D(0);
     for (let m = 0; m < 2; m++)
         for (let g = 0; g < 2; g++)
-        for (let s = 0; s < 5; s++)
+        for (let s = 0; s < 4; s++)
             for (let d = 0; d < nSymptoms; d++)
             for (let r = 0; r < nRepairs; r++)
                 out[m][g][s][d][r] = A[m][g][s][d][r] * B[m][g][s][d][r];
