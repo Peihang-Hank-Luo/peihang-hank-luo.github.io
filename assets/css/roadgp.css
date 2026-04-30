@@ -549,3 +549,13 @@ input.severity-quantity::-webkit-outer-spin-button {
         margin-top: 0;
     }
 }
+
+.step2-guidance {
+    background: #eef6ff;
+    border: 1px solid #cfe4ff;
+    border-left: 4px solid #007BFF;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+}

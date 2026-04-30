@@ -9,41 +9,88 @@ document.addEventListener("DOMContentLoaded", async function () {
     const lifeMean = loaded.lifeMean;
     const lifeRange = loaded.lifeRange;
 
-    // Map of road asset to the defects belonging to that asset. The
-    // defect names must exactly match those loaded from the CSV files
-    // otherwise the filter will fail to show/hide them correctly.
-    const regionToSymptoms = {
+    // Classify defect names into road assets using resilient keyword rules.
+    // This avoids brittle exact-string matching when CSV names are made
+    // more user-friendly (e.g. "Transverse" -> "Transverse cracking").
+    const regionClassifierRules = {
         pavement: [
-            "Transverse",
-            "Longitudinal",
-            "Edge",
-            "Block",
-            "Alligator",
-            "Potholes",
-            "Patches",
-            "Shoving",
-            "Rutting",
-            "Distortion",
-            "Raveling",
-            "Bleeding",
-            "Spalling",
-            "Surface irregularities",
-            "Slab rocking",
-            "Stepping"
+            "transverse", "longitudinal", "edge", "block", "alligator",
+            "pothole", "patch", "shoving", "rutting", "distortion",
+            "ravel", "bleeding", "spalling", "surface irregular", "slab",
+            "stepping", "cracking", "scaling", "crazing", "pop-out", "joint", "depression", "heave", "punchout", "compression"
         ],
         markings: [
-            "Material fault",
-            "Skidding",
-            "Poor retroreflectivity",
-            "Poor luminance",
-            "Stud defects",
-            "Stud retroreflectivity"
+            "marking", "retroreflect", "luminance", "stud", "skidding", "material fault"
         ],
         gully: [
-            "Blockage (gully)",
-            "Flooding and standing water"
+            "gully", "flood", "standing water", "drainage", "drain", "blockage"
         ]
     };
+
+    function classifySymptom(symptom) {
+        if (!symptom) return null;
+
+        const normalized = symptom.toLowerCase();
+        const scores = Object.fromEntries(
+            Object.keys(regionClassifierRules).map(region => [region, 0])
+        );
+
+        for (const [region, keywords] of Object.entries(regionClassifierRules)) {
+            keywords.forEach(keyword => {
+                if (normalized.includes(keyword)) {
+                    // Favor more specific keyword hits over broad ones.
+                    scores[region] += keyword.length;
+                }
+            });
+        }
+
+        const ranked = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+        const [topRegion, topScore] = ranked[0];
+        const secondScore = ranked[1] ? ranked[1][1] : 0;
+
+        if (topScore === 0) return null;
+        if (topScore === secondScore) return null; // ambiguous
+        return topRegion;
+    }
+
+    function buildRegionToSymptoms(symptoms) {
+        const mapping = { pavement: [], markings: [], gully: [] };
+        const unclassified = [];
+
+        symptoms.forEach(symptom => {
+            const region = classifySymptom(symptom);
+            if (region && mapping[region]) {
+                mapping[region].push(symptom);
+            } else {
+                unclassified.push(symptom);
+            }
+        });
+
+        // Keep all defects accessible even if unclassified.
+        mapping.unclassified = unclassified;
+        return mapping;
+    }
+
+    const regionToSymptoms = buildRegionToSymptoms(data.symptoms);
+    const potentialMisclassifications = data.symptoms
+        .map(symptom => {
+            const normalized = symptom.toLowerCase();
+            const matchedRegions = Object.entries(regionClassifierRules)
+                .filter(([, keywords]) => keywords.some(keyword => normalized.includes(keyword)))
+                .map(([region]) => region);
+
+            return matchedRegions.length > 1
+                ? { symptom, matchedRegions }
+                : null;
+        })
+        .filter(Boolean);
+
+    if (regionToSymptoms.unclassified.length) {
+        console.warn("Unclassified defects (step 2 filter):", regionToSymptoms.unclassified);
+    }
+    if (potentialMisclassifications.length) {
+        console.warn("Defects matching keywords from multiple regions:", potentialMisclassifications);
+    }
 
     const symptomButtons = document.getElementById("symptom-buttons");
     const selectedSymptoms = document.getElementById("selected-symptoms");
@@ -149,25 +196,36 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // ————— Hook up the SVG click-zones —————
     let currentRegion = null;
-    let currentList = [];
-    document
-    .querySelectorAll("#road-selector svg g[id]")
-    .forEach(regionEl => {
+    let currentList = data.symptoms;
+    const svgRegions = document.querySelectorAll("#road-selector svg g[id]");
+
+    function clearActiveRegion() {
+        svgRegions.forEach(el => el.classList.remove("active"));
+    }
+
+    svgRegions.forEach(regionEl => {
         regionEl.style.cursor = "pointer";
         regionEl.addEventListener("click", () => {
-        const region   = regionEl.id;    // "markings", "gullies", etc.
-        const list     = regionToSymptoms[region] || [];
-        currentRegion  = region;
-        currentList    = list;
+        const region = regionEl.id;    // "markings", "gully", "pavement"
 
-        // Optionally highlight the clicked region
-        document
-            .querySelectorAll("#road-selector svg g[id]")
-            .forEach(el => el.classList.remove("active"));
+        // Clicking the active asset again clears the filter.
+        const isTogglingOff = currentRegion === region;
+        if (isTogglingOff) {
+            currentRegion = null;
+            currentList = data.symptoms;
+            clearActiveRegion();
+            filterSymptomButtons(currentList);
+            return;
+        }
+
+        const list = regionToSymptoms[region] || [];
+        currentRegion = region;
+        currentList = list.length ? list : data.symptoms;
+
+        clearActiveRegion();
         regionEl.classList.add("active");
 
-        // Filter your button grid (if you still have that)
-        filterSymptomButtons(list);
+        filterSymptomButtons(currentList);
         });
     });
 
