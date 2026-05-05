@@ -57,6 +57,25 @@ async function loadAllData(basePath = '../assets/csv/') {
 
     const symptoms = unique(defectRepair.map(r => r.Defect));
 
+    const symptomRoadTypes = symptoms.map(symptom => {
+        const types = new Set();
+        defectRepair.forEach(row => {
+            if (row.Defect !== symptom) return;
+            const roadType = (row.RoadType || '').toLowerCase();
+            if (roadType.includes('asphalt')) types.add('asphalt');
+            if (roadType.includes('concrete')) types.add('concrete');
+            if (roadType.includes('both')) {
+                types.add('asphalt');
+                types.add('concrete');
+            }
+        });
+        if (types.size === 0) {
+            types.add('asphalt');
+            types.add('concrete');
+        }
+        return Array.from(types);
+    });
+
     // Build the canonical cause universe from CauseTreatment by CauseID
     const causeRows = [];
     const seenCause = new Set();
@@ -116,6 +135,7 @@ async function loadAllData(basePath = '../assets/csv/') {
     const costMatrixNamed = [];
     const groupValues = [];
     const roadTypes = [];
+    const repairRoadTypes = [];
     const lifeMean = [];
     const lifeMin = [];
     const lifeMax = [];
@@ -132,7 +152,13 @@ async function loadAllData(basePath = '../assets/csv/') {
             repairStrategyGroups.push(r.Category);
             costMatrixNamed.push(r.Cost);
             groupValues.push(r['When (# defects)'] || r.Situation || '');
-            roadTypes.push(r['Where? (road type)'] || r.RoadType || '');
+            const roadTypeValue = r['Where? (road type)'] || r.RoadType || '';
+            roadTypes.push(roadTypeValue);
+            const normalizedRoadType = roadTypeValue.toLowerCase();
+            const supportedTypes = [];
+            if (normalizedRoadType.includes('asphalt') || normalizedRoadType.includes('both')) supportedTypes.push('asphalt');
+            if (normalizedRoadType.includes('concrete') || normalizedRoadType.includes('both')) supportedTypes.push('concrete');
+            repairRoadTypes.push(supportedTypes.length ? supportedTypes : ['asphalt', 'concrete']);
             const mn = parseFloat(r.LifetimeMean);
             const mnMin = parseFloat(r.LifetimeMinYears);
             const mnMax = parseFloat(r.LifetimeMaxYears);
@@ -364,6 +390,8 @@ async function loadAllData(basePath = '../assets/csv/') {
             // Repairs
             repairStrategies,
             repairStrategyGroups,
+            repairRoadTypes,
+            symptomRoadTypes,
             timeSync: lifeMean
         },
         // Defect→Cause
