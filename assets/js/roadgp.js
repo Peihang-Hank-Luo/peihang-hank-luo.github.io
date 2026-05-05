@@ -467,6 +467,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         const sentence2     = `Which is traditionally treated by ${traditional}.`;
     
         // 3) Repairs sentence
+        if (!topRepIdx.length) {
+            return [ sentence1, sentence2, 'No repair data is available for the selected material and defect/severity combination.' ];
+        }
         const repNames     = topRepIdx.map(i=> data.repairStrategies[i]).join(" or ");
         const secondRepRel = Math.max(...repairRel.filter((v,i)=>i!==topRepIdx[0]));
         const sentence3 = `${repairPrefix} ${repNames}.`;
@@ -563,7 +566,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         picked.topRepIdx = picked.topRepIdx.filter(i => allowedRepairSet.has(i));
         if (!picked.topRepIdx.length && allowedRepairIndices.length) {
             const maxAllowedPct = Math.max(...allowedRepairIndices.map(i => analysis.repairPct[i]));
-            picked.topRepIdx = allowedRepairIndices.filter(i => analysis.repairPct[i] === maxAllowedPct);
+            if (maxAllowedPct > 0) {
+                picked.topRepIdx = allowedRepairIndices.filter(i => analysis.repairPct[i] === maxAllowedPct);
+            }
         }
         // const summary  = makeSummary(selected, analysis, picked);
         const summary  = makeSummary(entries, analysis, picked);
