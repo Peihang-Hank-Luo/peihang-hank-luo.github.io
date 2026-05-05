@@ -376,7 +376,6 @@ input.severity-quantity::-webkit-outer-spin-button {
 .step-nav .nav-item.disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    pointer-events: none;
 }
 
 .navigation {
