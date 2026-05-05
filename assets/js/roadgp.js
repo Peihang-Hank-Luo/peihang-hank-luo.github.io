@@ -567,7 +567,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (!picked.topRepIdx.length && allowedRepairIndices.length) {
             const maxAllowedPct = Math.max(...allowedRepairIndices.map(i => analysis.repairPct[i]));
             if (maxAllowedPct > 0) {
-                picked.topRepIdx = allowedRepairIndices.filter(i => analysis.repairPct[i] === maxAllowedPct);
+                let fallback = allowedRepairIndices.filter(i => analysis.repairPct[i] === maxAllowedPct);
+                // apply same tie-breakers as pickTop: cheapest → longest life → smallest range
+                const minCost = Math.min(...fallback.map(i => costRank[i]));
+                fallback = fallback.filter(i => costRank[i] === minCost);
+                const maxLife = Math.max(...fallback.map(i => lifeMean[i]));
+                fallback = fallback.filter(i => lifeMean[i] === maxLife);
+                const minRange = Math.min(...fallback.map(i => Math.abs(lifeRange[i])));
+                fallback = fallback.filter(i => Math.abs(lifeRange[i]) === minRange);
+                picked.topRepIdx = fallback;
             }
         }
         // const summary  = makeSummary(selected, analysis, picked);
