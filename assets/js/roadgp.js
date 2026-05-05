@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             autocompleteList.style.display = "none";
             return;
         }
-        let matches = data.symptoms.filter(symptom => symptom.toLowerCase().includes(value));
+        let matches = getAllowedSymptoms().filter(symptom => symptom.toLowerCase().includes(value));
         matches.forEach(symptom => {
             let item = document.createElement("div");
             item.className = "autocomplete-item";
@@ -194,9 +194,34 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
+
+    function getMaterialAllowedSymptoms(material = getSelectedMaterial()) {
+        return data.symptoms.filter((symptom, idx) => {
+            const roadTypes = data.symptomRoadTypes?.[idx] || ['asphalt', 'concrete'];
+            return roadTypes.includes(material);
+        });
+    }
+
+    function getAllowedSymptoms() {
+        const byMaterial = getMaterialAllowedSymptoms();
+        if (!currentRegion) return byMaterial;
+        const byRegion = regionToSymptoms[currentRegion] || [];
+        return byRegion.filter(symptom => byMaterial.includes(symptom));
+    }
+
+    function applySymptomFilters() {
+        const allowed = getAllowedSymptoms();
+        filterSymptomButtons(allowed);
+
+        [...selectedSymptoms.children].forEach(el => {
+            if (!allowed.includes(el.dataset.symptom)) {
+                el.remove();
+            }
+        });
+    }
+
     // ————— Hook up the SVG click-zones —————
     let currentRegion = null;
-    let currentList = data.symptoms;
     const svgRegions = document.querySelectorAll("#road-selector svg g[id]");
 
     function clearActiveRegion() {
@@ -212,34 +237,50 @@ document.addEventListener("DOMContentLoaded", async function () {
         const isTogglingOff = currentRegion === region;
         if (isTogglingOff) {
             currentRegion = null;
-            currentList = data.symptoms;
             clearActiveRegion();
-            filterSymptomButtons(currentList);
+            applySymptomFilters();
             return;
         }
 
-        const list = regionToSymptoms[region] || [];
         currentRegion = region;
-        currentList = list.length ? list : data.symptoms;
 
         clearActiveRegion();
         regionEl.classList.add("active");
 
-        filterSymptomButtons(currentList);
+        applySymptomFilters();
         });
     });
 
 
+    document.querySelectorAll('input[name="road-material"]').forEach(inputEl => {
+        inputEl.addEventListener('change', () => {
+            applySymptomFilters();
+            autocompleteList.style.display = 'none';
+        });
+    });
+
     const step2Btn = document.getElementById('to-step-2');
     if (step2Btn) {
         step2Btn.addEventListener('click', () => {
-            filterSymptomButtons(currentList.length ? currentList : data.symptoms);
+            applySymptomFilters();
         });
     }
+
+    applySymptomFilters();
 
     function getSelectedMaterial() {
         const mat = document.querySelector('input[name="road-material"]:checked');
         return mat ? mat.value.toLowerCase() : 'asphalt';
+    }
+
+
+    function getAllowedRepairIndices(material = getSelectedMaterial()) {
+        return data.repairStrategies
+            .map((_, idx) => idx)
+            .filter(idx => {
+                const roadTypes = data.repairRoadTypes?.[idx] || ['asphalt', 'concrete'];
+                return roadTypes.includes(material);
+            });
     }
 
     function getRepairVector(material, symptomIndex, severity, quantity) {
@@ -426,6 +467,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         const sentence2     = `Which is traditionally treated by ${traditional}.`;
     
         // 3) Repairs sentence
+        if (!topRepIdx.length) {
+            return [ sentence1, sentence2, 'No repair data is available for the selected material and defect/severity combination.' ];
+        }
         const repNames     = topRepIdx.map(i=> data.repairStrategies[i]).join(" or ");
         const secondRepRel = Math.max(...repairRel.filter((v,i)=>i!==topRepIdx[0]));
         const sentence3 = `${repairPrefix} ${repNames}.`;
@@ -517,6 +561,23 @@ document.addEventListener("DOMContentLoaded", async function () {
         const material = getSelectedMaterial();
         const analysis = analyze(entries, material);
         const picked   = pickTop(analysis);
+        const allowedRepairIndices = getAllowedRepairIndices(material);
+        const allowedRepairSet = new Set(allowedRepairIndices);
+        picked.topRepIdx = picked.topRepIdx.filter(i => allowedRepairSet.has(i));
+        if (!picked.topRepIdx.length && allowedRepairIndices.length) {
+            const maxAllowedPct = Math.max(...allowedRepairIndices.map(i => analysis.repairPct[i]));
+            if (maxAllowedPct > 0) {
+                let fallback = allowedRepairIndices.filter(i => analysis.repairPct[i] === maxAllowedPct);
+                // apply same tie-breakers as pickTop: cheapest → longest life → smallest range
+                const minCost = Math.min(...fallback.map(i => costRank[i]));
+                fallback = fallback.filter(i => costRank[i] === minCost);
+                const maxLife = Math.max(...fallback.map(i => lifeMean[i]));
+                fallback = fallback.filter(i => lifeMean[i] === maxLife);
+                const minRange = Math.min(...fallback.map(i => Math.abs(lifeRange[i])));
+                fallback = fallback.filter(i => Math.abs(lifeRange[i]) === minRange);
+                picked.topRepIdx = fallback;
+            }
+        }
         // const summary  = makeSummary(selected, analysis, picked);
         const summary  = makeSummary(entries, analysis, picked);
 
@@ -539,7 +600,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         // 1) Put the chosen top repairs (from pickTop) first (preserving their order)
         // 2) Append the remaining repairs sorted by percentage desc
 
-        const allRepairIdx = [...Array(data.repairStrategies.length).keys()];
+        const allRepairIdx = getAllowedRepairIndices(material);
         const topRepIdxSet = new Set(picked.topRepIdx);
 
         // indices not in the top set
