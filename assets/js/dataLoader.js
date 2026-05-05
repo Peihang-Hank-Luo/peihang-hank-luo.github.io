@@ -131,8 +131,8 @@ async function loadAllData(basePath = '../assets/csv/') {
             repairStrategies.push(r.Name);
             repairStrategyGroups.push(r.Category);
             costMatrixNamed.push(r.Cost);
-            groupValues.push(r['When (# defects)'] || '');
-            roadTypes.push(r['Where? (road type)'] || '');
+            groupValues.push(r['When (# defects)'] || r.Situation || '');
+            roadTypes.push(r['Where? (road type)'] || r.RoadType || '');
             const mn = parseFloat(r.LifetimeMean);
             const mnMin = parseFloat(r.LifetimeMinYears);
             const mnMax = parseFloat(r.LifetimeMaxYears);
