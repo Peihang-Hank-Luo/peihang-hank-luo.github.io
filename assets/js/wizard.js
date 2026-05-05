@@ -15,11 +15,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function canAccessStep(targetStep) {
-        if (targetStep <= maxReachedStep) {
-            return true;
-        }
         if (targetStep === 2) {
             return hasValidRoadLength();
+        }
+        if (targetStep <= maxReachedStep) {
+            return true;
         }
         return false;
     }
