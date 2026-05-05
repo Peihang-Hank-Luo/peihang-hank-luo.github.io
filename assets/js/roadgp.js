@@ -211,7 +211,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     function applySymptomFilters() {
         const allowed = getAllowedSymptoms();
-        currentList = allowed.length ? allowed : [];
         filterSymptomButtons(allowed);
 
         [...selectedSymptoms.children].forEach(el => {
@@ -223,7 +222,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // ————— Hook up the SVG click-zones —————
     let currentRegion = null;
-    let currentList = data.symptoms;
     const svgRegions = document.querySelectorAll("#road-selector svg g[id]");
 
     function clearActiveRegion() {
