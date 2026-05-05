@@ -419,7 +419,7 @@ input.severity-quantity::-webkit-outer-spin-button {
 }
 
 .road-length input {
-    width: 72%;
+    width: 75%;
     max-width: 100%;
     box-sizing: border-box;
     display: block;
