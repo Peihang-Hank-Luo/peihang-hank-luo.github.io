@@ -567,6 +567,7 @@ input.severity-quantity::-webkit-outer-spin-button {
 
 .symptom-group {
     margin-top: 10px;
+    width: 100%;
 }
 
 .symptom-group-heading {
