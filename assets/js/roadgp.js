@@ -101,6 +101,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const symptomButtons = document.getElementById("symptom-buttons");
     const selectedSymptoms = document.getElementById("selected-symptoms");
+    let currentRegion = null;
     const input = document.getElementById("symptom-input");
     const autocompleteList = document.getElementById("autocomplete-list");
     const resultsContainer = document.getElementById("results");
@@ -258,7 +259,6 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     // ————— Hook up the SVG click-zones —————
-    let currentRegion = null;
     const svgRegions = document.querySelectorAll("#road-selector svg g[id]");
     const roadSelector = document.getElementById("road-selector");
 
