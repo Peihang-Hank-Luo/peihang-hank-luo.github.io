@@ -564,3 +564,50 @@ input.severity-quantity::-webkit-outer-spin-button {
     margin-bottom: 12px;
     font-size: 0.95rem;
 }
+
+.symptom-group {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.symptom-group-heading {
+    margin: 8px 0;
+    font-size: 1rem;
+    color: #2b2b2b;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 4px;
+}
+
+.symptom-group.selected .symptom-group-heading {
+    color: #0056b3;
+    border-bottom-color: #007BFF;
+}
+
+.symptom-group-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+#road-selector {
+    position: relative;
+}
+
+.svg-hover-tooltip {
+    position: absolute;
+    pointer-events: none;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.12s ease;
+    z-index: 15;
+    white-space: nowrap;
+}
+
+.svg-hover-tooltip.visible {
+    opacity: 1;
+}
