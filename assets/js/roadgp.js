@@ -53,6 +53,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         return topRegion;
     }
 
+    const regionLabels = {
+        pavement: "Pavement",
+        markings: "Markings",
+        gully: "Drainage / Gully",
+        unclassified: "Other Defects"
+    };
+
     function buildRegionToSymptoms(symptoms) {
         const mapping = { pavement: [], markings: [], gully: [] };
         const unclassified = [];
@@ -102,15 +109,41 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const seenEntries = new Set();     // symptom|severity as key
 
-    // Populate symptom buttons for quick selection  
-    data.symptoms.forEach(symptom => {
-        let button = document.createElement("div");
-        button.className = "symptom-button";
-        button.textContent = symptom;
-        button.onclick = () => addSymptom(symptom);
-        symptomButtons.appendChild(button);
-    });
+    function renderSymptomGroups() {
+        symptomButtons.innerHTML = "";
 
+        const regionOrder = ["pavement", "markings", "gully", "unclassified"];
+        regionOrder.forEach(region => {
+            const symptoms = regionToSymptoms[region] || [];
+            if (!symptoms.length) return;
+
+            const group = document.createElement("section");
+            group.className = "symptom-group";
+            group.dataset.region = region;
+
+            const heading = document.createElement("h3");
+            heading.className = "symptom-group-heading";
+            heading.textContent = regionLabels[region] || region;
+            group.appendChild(heading);
+
+            const list = document.createElement("div");
+            list.className = "symptom-group-list";
+
+            symptoms.forEach(symptom => {
+                const button = document.createElement("div");
+                button.className = "symptom-button";
+                button.textContent = symptom;
+                button.dataset.region = region;
+                button.onclick = () => addSymptom(symptom);
+                list.appendChild(button);
+            });
+
+            group.appendChild(list);
+            symptomButtons.appendChild(group);
+        });
+    }
+
+    renderSymptomGroups();
     filterSymptomButtons(data.symptoms);  // default to showing all defects
 
     // Autocomplete function
@@ -188,9 +221,13 @@ document.addEventListener("DOMContentLoaded", async function () {
     function filterSymptomButtons(allowedList) {
         document.querySelectorAll(".symptom-button").forEach(btn => {
           const name = btn.textContent;
-          btn.style.display = allowedList.includes(name)
-            ? "inline-block"
-            : "none";
+          btn.style.display = allowedList.includes(name) ? "inline-block" : "none";
+        });
+
+        document.querySelectorAll(".symptom-group").forEach(group => {
+            const visibleCount = group.querySelectorAll('.symptom-button[style*="inline-block"], .symptom-button:not([style])').length;
+            group.style.display = visibleCount ? "block" : "none";
+            group.classList.toggle("selected", !!currentRegion && group.dataset.region === currentRegion);
         });
     }
 
@@ -223,6 +260,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     // ————— Hook up the SVG click-zones —————
     let currentRegion = null;
     const svgRegions = document.querySelectorAll("#road-selector svg g[id]");
+    const roadSelector = document.getElementById("road-selector");
+
+    const svgTooltip = document.createElement("div");
+    svgTooltip.className = "svg-hover-tooltip";
+    svgTooltip.setAttribute("role", "status");
+    roadSelector.appendChild(svgTooltip);
+
+    function updateSvgTooltip(event, region) {
+        svgTooltip.textContent = regionLabels[region] || region;
+        const rect = roadSelector.getBoundingClientRect();
+        svgTooltip.style.left = `${event.clientX - rect.left + 8}px`;
+        svgTooltip.style.top = `${event.clientY - rect.top + 8}px`;
+        svgTooltip.classList.add("visible");
+    }
+
+    function hideSvgTooltip() {
+        svgTooltip.classList.remove("visible");
+    }
 
     function clearActiveRegion() {
         svgRegions.forEach(el => el.classList.remove("active"));
@@ -230,6 +285,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     svgRegions.forEach(regionEl => {
         regionEl.style.cursor = "pointer";
+        regionEl.setAttribute("aria-label", regionLabels[regionEl.id] || regionEl.id);
+        regionEl.addEventListener("mousemove", (event) => updateSvgTooltip(event, regionEl.id));
+        regionEl.addEventListener("mouseleave", hideSvgTooltip);
         regionEl.addEventListener("click", () => {
         const region = regionEl.id;    // "markings", "gully", "pavement"
 
@@ -239,6 +297,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             currentRegion = null;
             clearActiveRegion();
             applySymptomFilters();
+            hideSvgTooltip();
             return;
         }
 
@@ -248,6 +307,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         regionEl.classList.add("active");
 
         applySymptomFilters();
+        hideSvgTooltip();
         });
     });
 
@@ -263,6 +323,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (step2Btn) {
         step2Btn.addEventListener('click', () => {
             applySymptomFilters();
+        hideSvgTooltip();
         });
     }
 
