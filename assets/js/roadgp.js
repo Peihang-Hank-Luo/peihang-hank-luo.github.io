@@ -323,7 +323,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (step2Btn) {
         step2Btn.addEventListener('click', () => {
             applySymptomFilters();
-        hideSvgTooltip();
+            hideSvgTooltip();
         });
     }
 
