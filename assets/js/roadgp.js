@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const svgTooltip = document.createElement("div");
     svgTooltip.className = "svg-hover-tooltip";
-    svgTooltip.setAttribute("role", "status");
+    svgTooltip.setAttribute("aria-hidden", "true");
     roadSelector.appendChild(svgTooltip);
 
     function updateSvgTooltip(event, region) {
